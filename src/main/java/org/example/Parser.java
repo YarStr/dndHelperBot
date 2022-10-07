@@ -9,50 +9,41 @@ import java.io.IOException;
 
 
 public class Parser {
-
-    public static Elements getShortInfo(Document section) {
-        Elements spetialitiesOfSection = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
-        return spetialitiesOfSection;
-    }
-
-
-    public static boolean isRaceExist(String message) throws IOException {
-        Document section = Jsoup.connect("https://dnd.su/race/").get();
+    public static boolean isPageExists(String message) {
+        Document section;
+        try {
+            section = Jsoup.connect("https://dnd.su/race/").get();
+        } catch (IOException e) {
+            return false;
+        }
         Elements raceList = section.select("span[class=\"article_title\"]");
 
         for (Element raceListElement : raceList) {
-            if (raceListElement.text().toLowerCase().equals(message.toLowerCase())) {
+            if (raceListElement.text().equalsIgnoreCase(message)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static String getMainInformation(String link) throws IOException {
+    public static String getMainInfoFromPage(String link) throws IOException {
         Document section = Jsoup.connect("https://dnd.su" + link).get();
-        Elements mainInformationList = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
+        Elements mainInfoElements = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
         String output = "";
-        for (Element temp : mainInformationList) {
-            output += temp.text() + '\n';
+        for (Element element : mainInfoElements) {
+            output += element.text() + '\n';
         }
         return output;
     }
 
-    public static String getLink(String message) throws IOException {
+    public static String getPageLink(String message) throws IOException {
         Document section = Jsoup.connect("https://dnd.su/race/").get();
         Elements raceList = section.select("a:has(span[class=\"article_title\"])");
-
-        for (Element temp : raceList) {
-            if (temp.select("span[class=\"article_title\"]").text().toLowerCase()
-                    .equals(message.toLowerCase())) {
-                return temp.attr("href");
+        for (Element raceElement : raceList) {
+            if (raceElement.select("span[class=\"article_title\"]").text().equalsIgnoreCase(message)) {
+                return raceElement.attr("href");
             }
         }
         return "";
     }
 }
-//
-//    public static void main(String[] args) throws IOException {
-//        System.out.println(getLink(""));
-//    }
-//}
