@@ -1,62 +1,65 @@
 package org.example;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
-public class ConsoleBot implements Bot {
-    public void starting() {
-        System.out.println("Hi, I'm dnd HelperBot. Write your character. /help - helper, /exit - end of work");
-        work();
-    }
+public class ConsoleBot {
 
-    public void work(){
-        while(true) {
-            System.out.println("Write query");
-            try {
-                if (checking(Output.message()).equals("exit")){
-                    break;
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    public ConsoleBot() {
 
     }
-
-    public String checking(String input) {
-        switch (input) {
-            case "/help" -> {
-                printHelp();
-                return("help");
-            }
-            case "/exit" -> {
-                return("exit");
-            }
-            default -> {
-                ShapingFormation.doParsingMainInformation(input);
-                return("shape");
-            }
-            ///парсинг сайта и поиск нужного. результат - статья или "неправильный ввод"
+    public static void start() throws IOException {
+        System.out.println("ВЫВОД HELP");
+        while(true){
+            System.out.println("Введите расу");
+            String message = getMessage();
+            reactToMessage(message);
         }
     }
 
-    public void printHelp() {
-        System.out.println("This is help");
+    public static String getMessage() {
+        try {
+            return new BufferedReader(new InputStreamReader(System.in)).readLine();
+        } catch (IOException e) {
+            return new String();
+        }
     }
 
+    public static void reactToMessage(String message) throws IOException {
+        if (message.isEmpty()) {
+            System.out.println("Ввод неверен");
+        }
+        else if (message.charAt(0)=='/') {
+            executeCommand(message);
+        }
+        else {
+            processTheRequest(message);
+        }
+    }
+    public static void processTheRequest(String message) throws IOException {
+        if(Parser.isRaceExist(message)){
+            System.out.println(Parser.getMainInformation(Parser.getLink(message)));
+            System.out.println("Нужно ли больше инфы?");
+            String tempMessage = getMessage();
+            if(tempMessage.charAt(0) == '/'){
+                executeCommand(tempMessage);
+            }
+            else if(tempMessage.equals("yes")){
+                System.out.println("Держи, bro :)");
+                System.out.println("https://dnd.su" + Parser.getLink(message));
+            }
+        }
+        else{
+            System.out.println("Такой расы не существует, попробуй еще раз)");
+        }
+    }
 
-//    public static void printAnswer(String input) {
-//        if (input == "") {
-//            System.out.println("No data was found. Please repeat your request");
-//         }
-//         else{
-//            System.out.println(input);
-//            System.out.println("Is more information needed about this character? If yes, enter one of the lines:");
-//            System.out.println(//inf about title);
-//         }
-//
-//        иначе выводим данные, затем запрос, нужна ли им статья(заголовки выводятся на экран)
-//    }
-
-
-
+    public static void executeCommand(String message){
+        if ("/help".equals(message)) {
+            System.out.println("ВЫВОД HELP");
+        } else {
+            System.out.println("Такой команды не существует");
+        }
+    }
 }
