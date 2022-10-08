@@ -1,6 +1,15 @@
 package org.example;
 
+/**
+ * Класс с выполнением команд
+ */
+
 public class BotCommands {
+    
+    /**
+      * Метод, который выводит help
+      */
+
     public static String getHelpCommand() {
         BotStatement.statement = "main";
         return """
