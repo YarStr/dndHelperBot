@@ -1,20 +1,37 @@
 package org.example;
 
+/**
+ * Класс, осуществляющий обработку информации
+ */
+
 public class InputDataHandler {
 
     private static Race race;
 
+   /**
+     * Метод, осуществляющий обработку функций 
+     */
     public static String executeCommand(String message) {
         if ("/help".equals(message))
             return BotCommands.getHelpCommand();
         return "Такой команды не существует";
     }
+    
+    /**
+     * Метод, осуществляющий выбор дальнейшего пути работы в зависимости от статуса состояния бота 
+     */
 
     public static String processRequest(String message) {
         if (BotStatement.statement.equals("main"))
             return processMainRequest(message);
         return processInDialogRequest(message);
     }
+    
+    /**
+     * Метод, который осуществляет обработку основного (первичного) запроса и меняет состояние бота 
+     * для работы дополнительной (вторичной) ветки работы, если запрос найден.
+     * Если запрос не найден, бот просит ввести его еще раз
+     */
 
     private static String processMainRequest(String message) {
         String output = "";
@@ -28,6 +45,10 @@ public class InputDataHandler {
         }
         return output;
     }
+    
+    /**
+     * Метод, осуществляющий дополнительную ветку работы - выводит больше информации по запросу, если этого требует пользователль 
+     */
 
     private static String processInDialogRequest(String message) {
         String output = "";
