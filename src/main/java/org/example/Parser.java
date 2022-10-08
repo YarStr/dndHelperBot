@@ -7,8 +7,17 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+/**
+ * Класс, содержащий в себе методы для парсинга сайта dnd.su
+ */
 
 public class Parser {
+    
+    /**
+    * Метод, который осуществляет получение страницы для ответа на поисковый запрос и выводящий true, если такой найден
+    * @throws IOException вызывается, если подключение к сайту не произошло
+    */
+    
     public static boolean isPageExists(String message) {
         Document section;
         try {
@@ -25,6 +34,10 @@ public class Parser {
         }
         return false;
     }
+    
+    /**
+    * Метод, который осуществляет получение основной информации на основной (первичный) запрос
+    */
 
     public static String getMainInfoFromPage(String link) throws IOException {
         Document section = Jsoup.connect("https://dnd.su" + link).get();
@@ -35,6 +48,10 @@ public class Parser {
         }
         return output;
     }
+    
+    /**
+    * Метод, который осуществляет получение ссылки для ответа на дополнительный(вторичный) запрос
+    */
 
     public static String getPageLink(String message) throws IOException {
         Document section = Jsoup.connect("https://dnd.su/race/").get();
