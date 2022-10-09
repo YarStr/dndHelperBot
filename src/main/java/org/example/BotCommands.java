@@ -5,10 +5,10 @@ package org.example;
  */
 
 public class BotCommands {
-    
+
     /**
-      * Метод, который выводит help
-      */
+     * Метод, который возвращает содержание help
+     */
 
     public static String getHelpCommand() {
         BotStatement.statement = "main";

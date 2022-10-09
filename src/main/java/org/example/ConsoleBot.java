@@ -14,7 +14,7 @@ public class ConsoleBot {
      * Метод, который запсукает работу консоли
      * Пустые строки ботом игнорируются
      */
-    
+
     public void start() {
         System.out.println(BotCommands.getHelpCommand());
         while (true) {
@@ -24,9 +24,11 @@ public class ConsoleBot {
             reactToMessage(message);
         }
     }
-    
+
     /**
      * Метод, который записывает полученные данные от пользователя
+     *
+     * @return поступивший запрос в успешном случае, иначе - ошибка
      * @throws IOException вызывается, если ввод не был осуществлен
      */
 
@@ -37,11 +39,14 @@ public class ConsoleBot {
             return "";
         }
     }
-    
+
     /**
-     * Метод, который вызывает разделяет команды от запросов
+     * Метод, который выводит информацию, вызывая методы реакции,
+     * в зависимости от того, функция это или поисковый запрос
+     *
+     * @param message - запрос пользователя
      */
-    
+
     private void reactToMessage(String message) {
         if (message.charAt(0) == '/') {
             System.out.println(InputDataHandler.executeCommand(message));

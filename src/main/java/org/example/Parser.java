@@ -12,12 +12,16 @@ import java.io.IOException;
  */
 
 public class Parser {
-    
+
     /**
-    * Метод, который осуществляет получение страницы для ответа на поисковый запрос и выводящий true, если такой найден
-    * @throws IOException вызывается, если подключение к сайту не произошло
-    */
-    
+     * Метод, который осуществляет получение страницы для ответа на поисковый запрос
+     * и дальнейший поиск нужной расы
+     *
+     * @param message - запрос пользователя
+     * @return true, если раса найдена, иначе - false
+     * @throws IOException вызывается, если подключение к сайту не произошло
+     */
+
     public static boolean isPageExists(String message) {
         Document section;
         try {
@@ -34,10 +38,15 @@ public class Parser {
         }
         return false;
     }
-    
+
+
     /**
-    * Метод, который осуществляет получение основной информации на основной (первичный) запрос
-    */
+     * Метод, который осуществляет получение краткой сводки на основной (первичный) запрос
+     *
+     * @param link - ссылка на страницу с поисковым запросом
+     * @return возвращает краткую сводку
+     * @throws IOException вызывается, если подключение к сайту не произошло
+     */
 
     public static String getMainInfoFromPage(String link) throws IOException {
         Document section = Jsoup.connect("https://dnd.su" + link).get();
@@ -48,10 +57,14 @@ public class Parser {
         }
         return output;
     }
-    
+
     /**
-    * Метод, который осуществляет получение ссылки для ответа на дополнительный(вторичный) запрос
-    */
+     * Метод, который осуществляет получение ссылки для ответа на дополнительный(вторичный) запрос
+     *
+     * @param message - поисковый запрос
+     * @return возвращает ссылку на поисковый запрос
+     * @throws IOException вызывается, если подключение к сайту не произошло
+     */
 
     public static String getPageLink(String message) throws IOException {
         Document section = Jsoup.connect("https://dnd.su/race/").get();

@@ -7,14 +7,14 @@ import java.io.IOException;
  */
 
 public class Race {
-    
+
     /**
      * link - ссылка на страницу
-     * mainInformation - блок с основной информацией
+     * mainInformation - блок с краткой сводкой
      */
     private String link;
     private String mainInformation;
-    
+
     /**
      * Конструктор класса расы
      */
@@ -23,9 +23,13 @@ public class Race {
         setLink(message);
         setMainInformation(link);
     }
-    
+
+
     /**
-     * Метод, устанавливающий ссылку на поисковый запрос
+     * Метод, устанавливающий в поле link ссылку на поисковый запрос
+     *
+     * @param message - поисковый запрос
+     * @throws IOException вызывается, если ссылка не была получена
      */
 
     public void setLink(String message) {
@@ -35,9 +39,13 @@ public class Race {
             link = "unknown link";
         }
     }
-    
+
+
     /**
-     * Метод, устанавливающий основную информацию на поисковый запрос
+     * Метод, устанавливающий в поле mainInformation краткую сводку
+     *
+     * @param link - ссылка на страницу с поисковым запросом
+     * @throws IOException вызывается, если информация не была получена
      */
 
     public void setMainInformation(String link) {
@@ -47,17 +55,21 @@ public class Race {
             mainInformation = "unknown main information";
         }
     }
-    
+
     /**
      * Метод, осуществляющий получение ссылки на страницу поискового запроса
+     *
+     * @return возврыщыет ссылку на запрос
      */
 
     public String getLink() {
         return link;
     }
-    
+
     /**
-     * Метод, осуществляющий получение основной информации на поисковый запрос
+     * Метод, осуществляющий получение краткой сводки на поисковый запрос
+     *
+     * @return возврыщыет краткую сводку на запрос
      */
 
     public String getMainInformation() {
