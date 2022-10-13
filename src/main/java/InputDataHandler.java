@@ -1,4 +1,4 @@
-package org.example;
+import Parser.Parser;
 
 /**
  * Класс, осуществляющий обработку информации
@@ -16,7 +16,7 @@ public class InputDataHandler {
      */
     public static String executeCommand(String message) {
         if ("/help".equals(message))
-            return BotCommands.getHelpCommand();
+            return BotAPI.getHelp();
         return "Такой команды не существует";
     }
 

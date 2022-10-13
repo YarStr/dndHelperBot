@@ -1,9 +1,9 @@
-package org.example;
+package java;
 
 /**
  * Программа, реализующая парсинг сайта dnd.su
  *
- * @author Yaroslav Strahov and Novikova Anastasia
+ * @author Yaroslav Strakhov and Novikova Anastasia
  */
 
 /**
