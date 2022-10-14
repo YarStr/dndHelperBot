@@ -4,16 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Класс, реализующий получение сообщений от пользователя из консоли
+ */
 public class ConsoleInput implements InputModule {
 
     /**
-     * Метод, который записывает полученные данные от пользователя
-     *
-     * @return поступивший запрос в успешном случае, иначе - ошибка
-     * @throws IOException вызывается, если ввод не был осуществлен
+     * Функция получения сообщения из консоли
+     * @return сообщение
      */
-
-
     public String getMessage() {
         try {
             return new BufferedReader(new InputStreamReader(System.in)).readLine();

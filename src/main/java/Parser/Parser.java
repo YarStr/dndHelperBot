@@ -6,9 +6,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Класс, содержащий в себе методы для парсинга сайта dnd.su
+ * Класс для парсинга сайта dnd.su
  */
 
 public class Parser {
@@ -37,6 +40,25 @@ public class Parser {
             }
         }
         return false;
+    }
+
+    /**
+     * Функция получения всех доступных страниц рас
+     * @return сообщение - список рас
+     */
+    public static String getPagesList() {
+        Document section;
+        try {
+            section = Jsoup.connect("https://dnd.su/race/").get();
+        } catch (IOException e) {
+            return new String();
+        }
+        Elements raceList = section.select("span[class=\"article_title\"]");
+        String pagesList = "";
+        for (Element raceListElement : raceList) {
+            pagesList += raceListElement.text() + "\n";
+        }
+        return pagesList;
     }
 
 
