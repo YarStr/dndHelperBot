@@ -11,6 +11,7 @@ public class ConsoleInput implements InputModule {
 
     /**
      * Функция получения сообщения из консоли
+     *
      * @return сообщение
      */
     public String getMessage() {

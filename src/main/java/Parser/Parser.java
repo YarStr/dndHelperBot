@@ -44,6 +44,7 @@ public class Parser {
 
     /**
      * Функция получения всех доступных страниц рас
+     *
      * @return сообщение - список рас
      */
     public static String getPagesList() {
@@ -51,14 +52,14 @@ public class Parser {
         try {
             section = Jsoup.connect("https://dnd.su/race/").get();
         } catch (IOException e) {
-            return new String();
+            return "";
         }
         Elements raceList = section.select("span[class=\"article_title\"]");
-        String pagesList = "";
+        StringBuilder pagesList = new StringBuilder();
         for (Element raceListElement : raceList) {
-            pagesList += raceListElement.text() + "\n";
+            pagesList.append(raceListElement.text()).append("\n");
         }
-        return pagesList;
+        return pagesList.toString();
     }
 
 
@@ -73,11 +74,11 @@ public class Parser {
     public static String getMainInfoFromPage(String link) throws IOException {
         Document section = Jsoup.connect("https://dnd.su" + link).get();
         Elements mainInfoElements = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
-        String output = "";
+        StringBuilder output = new StringBuilder();
         for (Element element : mainInfoElements) {
-            output += element.text() + '\n';
+            output.append(element.text()).append('\n');
         }
-        return output;
+        return output.toString();
     }
 
     /**

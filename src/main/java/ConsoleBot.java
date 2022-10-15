@@ -1,15 +1,25 @@
+import command.HelpCommand;
 import dataIO.*;
+import request.Request;
+import request.RequestCreator;
+import request.RequestHandler;
 
 /**
  * Класс бота, работающего в консоли
  */
 
 public class ConsoleBot {
-    /** Поле модуль генератор запросов */
+    /**
+     * Поле модуль генератор запросов
+     */
     private final RequestCreator requestCreator;
-    /** Поле обработчик запросов */
+    /**
+     * Поле обработчик запросов
+     */
     private final RequestHandler requestHandler;
-    /** Поле модуль вывода сообщений */
+    /**
+     * Поле модуль вывода сообщений
+     */
     private final OutputModule outputModule;
 
     /**
@@ -24,7 +34,9 @@ public class ConsoleBot {
     /**
      * Функция, запускающая работу бота
      */
-    public void start(){
+    public void start() {
+        HelpCommand help = new HelpCommand();
+        System.out.println(help.getHelp());
         while (true) {
             Request request = null;
             while (request == null)

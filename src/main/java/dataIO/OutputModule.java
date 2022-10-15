@@ -6,6 +6,7 @@ package dataIO;
 public interface OutputModule {
     /**
      * Функция отправки сообщения
+     *
      * @param message - сообщение
      */
     void sendMessage(String message);

@@ -6,6 +6,7 @@ package dataIO;
 public class ConsoleOutput implements OutputModule {
     /**
      * Функция отправки сообщения в консоль
+     *
      * @param message - сообщение
      */
     public void sendMessage(String message) {

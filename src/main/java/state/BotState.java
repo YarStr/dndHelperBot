@@ -9,7 +9,7 @@ public enum BotState {
      */
     Main {
         @Override
-        public BotState nextState(String command){
+        public BotState nextState(String command) {
             if (command.equals("/info"))
                 return RaceInfo;
             return this;
@@ -21,13 +21,14 @@ public enum BotState {
      */
     RaceInfo {
         @Override
-        public BotState nextState(String command){
+        public BotState nextState(String command) {
             return Main;
         }
     };
 
     /**
      * Функция перехода в следующее состояние
+     *
      * @param command - команда, после которой состояние может измениться
      * @return возвращает новое состояние диалога бота
      */
