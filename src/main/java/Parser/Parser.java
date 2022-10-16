@@ -6,9 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Класс для парсинга сайта dnd.su
@@ -52,7 +50,7 @@ public class Parser {
         try {
             section = Jsoup.connect("https://dnd.su/race/").get();
         } catch (IOException e) {
-            return "";
+            return "Error";
         }
         Elements raceList = section.select("span[class=\"article_title\"]");
         StringBuilder pagesList = new StringBuilder();
@@ -78,7 +76,10 @@ public class Parser {
         for (Element element : mainInfoElements) {
             output.append(element.text()).append('\n');
         }
-        return output.toString();
+        if (output.toString().equals("")) {
+            return "Error";
+        }
+        return output.substring(0, output.length() - 1);
     }
 
     /**

@@ -7,22 +7,13 @@ import command.RaceCommand;
 import state.BotState;
 
 /**
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * В ЭТОМ ФАЙЛИКЕ ОНО РУГАЕТСЯ НА ТО ЧТО МЕТОДЫ НЕ ВСЕГДА ЧТО-ТО ВОЗВРАЩВЮТ
- * Хотя это не так.
- * Посмотри, что можно сделать, чтобы не ругалось :)
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * СДЕЛАНООООО
- */
-
-/**
  * Класс обработки запросов пользователя и вызова соответствующей логики
  */
 public class RequestHandler {
     /**
      * Поле состояние диалога бота
      */
-    BotState state = BotState.Main;
+    private BotState state = BotState.Main;
 
     /**
      * Функция вызова логики по запросу
@@ -33,18 +24,24 @@ public class RequestHandler {
     public String handleRequest(Request request) {
         switch (state) {
             case Main -> {
-                state.nextState(request.command());
+                state = state.nextState(request.command());
                 return executeMainCommand(request);
             }
             case RaceInfo -> {
-                state.nextState(request.command());
+                state = state.nextState(request.command());
                 return executeRaceInfoCommand(request);
             }
             default -> {
-                return ("Ошибка в состоянии");
+                state = state.nextState("Error");
+                return "Error";
             }
         }
     }
+
+    /**
+     * Поле с данными расы для команд
+     */
+    private final RaceCommand race = new RaceCommand();
 
     /**
      * Функция вызова по запросу команды, доступной из состояния диалога Main
@@ -63,7 +60,11 @@ public class RequestHandler {
                 return list.getRaceList();
             }
             case "/info" -> {
-                RaceCommand race = new RaceCommand();
+                if (race.getRaceInfo(request.argument()).equals("Error")) {
+                    state = state.nextState("Error");
+                    ExeptionCommand exeption = new ExeptionCommand();
+                    return exeption.getExeptionArgument();
+                }
                 return race.getRaceInfo(request.argument());
             }
             default -> {
@@ -81,17 +82,11 @@ public class RequestHandler {
      */
     private String executeRaceInfoCommand(Request request) {
         switch (request.command()) {
-            case "/help" -> {
-                HelpCommand help = new HelpCommand();
-                return help.getHelp();
-            }
             case "/more" -> {
-                RaceCommand race = new RaceCommand();
-                return race.getMoreRaceInfo(request.argument());
+                return race.getMoreRaceInfo();
             }
             default -> {
-                ExeptionCommand exeption = new ExeptionCommand();
-                return exeption.getExeptionCommand();
+                return handleRequest(request);
             }
         }
     }

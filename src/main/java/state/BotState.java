@@ -17,6 +17,16 @@ public enum BotState {
     },
 
     /**
+     * Состояние при возникновении ошибки ввода информации
+     */
+    Error {
+        @Override
+        public BotState nextState(String command) {
+            return Main;
+        }
+    },
+
+    /**
      * Состояние в ветке диалога команды вывода информации о расе
      */
     RaceInfo {
