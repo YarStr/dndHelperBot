@@ -7,9 +7,9 @@ public class ConsoleOutput implements OutputModule {
     /**
      * Функция отправки сообщения в консоль
      *
-     * @param message - сообщение
+     * @param data - сообщение
      */
-    public void sendMessage(String message) {
-        System.out.println(message);
+    public void sendData(String data) {
+        System.out.println(data);
     }
 }

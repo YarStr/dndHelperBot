@@ -1,18 +1,29 @@
 package command;
 
-import Parser.Parser;
+import parser.Parser;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * Класс, реализующий обработку заголовков по видам запроса
+ * Класс команды вывода списка доступных элементов секции сайта
  */
-public class ListCommand {
+public class ListCommand implements Command {
+    /**
+     * Поле название секции сайта
+     */
+    private final String sectionName;
 
     /**
-     * Функция возврата заголовков
+     * Конструктор - создание нового объекта команды
      *
-     * @return сообщение - список заголовков
+     * @param arguments - аргументы команды
      */
-    public String getRaceList() {
-        return Parser.getPagesList();
+    public ListCommand(ArrayList<String> arguments) {
+        sectionName = arguments.get(0);
+    }
+
+    public String getResult() throws IOException {
+        return Parser.getPagesList(sectionName);
     }
 }

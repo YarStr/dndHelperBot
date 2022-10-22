@@ -1,13 +1,13 @@
 package dataIO;
 
 /**
- * Интерфейс модуля, выводящего сообщения пользователю
+ * Интерфейс модуля, выводящего информацию пользователю
  */
 public interface OutputModule {
     /**
-     * Функция отправки сообщения
+     * Функция отправки информации
      *
-     * @param message - сообщение
+     * @param data - текстовая информация
      */
-    void sendMessage(String message);
+    void sendData(String data);
 }
