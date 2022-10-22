@@ -38,8 +38,7 @@ public class ConsoleBot {
     public void start() {
         outputModule.sendData("""
                 Привет! Я dndHelperBot, помогающий быстро найти информацию о правилах игры D&D 5e с сайта https://dnd.su
-                Для вывода доступных команд введите /help
-                """);
+                Для вывода доступных команд введите /help""");
         while (true) {
             Message message = null;
             while (message == null)
