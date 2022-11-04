@@ -3,6 +3,7 @@ package pages;
 import parser.Parser;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -14,18 +15,17 @@ public class Page {
      * Поле ссылка на страницу
      */
     private String link;
-
-    /**
-     * Поле блок с основной информацией страницы
-     */
-    private String mainInformation;
+    private String name;
+    private Map<String, String> mainInfoBlock;
+    private Map<String, String> additionInfoBlock;
 
     /**
      * Конструктор класса страницы
      */
-    public Page(String message) throws IOException {
-        setLink(message);
-        setMainInformation(link);
+    public Page(String pageName) throws IOException {
+        setLink(pageName);
+        name = pageName;
+        setInfoBlocks(link);
     }
 
     /**
@@ -35,7 +35,7 @@ public class Page {
      */
     public void setLink(String pageName) {
         try {
-            link = Parser.getPageLink(pageName);
+            link = Parser.getPageLink("race", pageName);
         } catch (IOException e) {
             link = "unknown link";
         }
@@ -46,7 +46,7 @@ public class Page {
      *
      * @param link - ссылка на страницу
      */
-    public void setMainInformation(String link) throws IOException {
+    public void setInfoBlocks(String link) throws IOException {
 
         mainInformation = Parser.getMainInfoFromPage(link);
 
