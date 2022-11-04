@@ -12,5 +12,5 @@ public interface Command {
      * @return результат команды
      * @throws IOException вызывает исключение в случае ошибки при получении данных командой
      */
-    String getResult() throws IOException;
+    String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException ;
 }

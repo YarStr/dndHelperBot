@@ -1,8 +1,9 @@
 package command;
 
+import botLogic.FailedConnectionException;
+import botLogic.NonExistentSectionException;
 import parser.Parser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +24,13 @@ public class ListCommand implements Command {
         sectionName = arguments.get(0);
     }
 
-    public String getResult() throws IOException {
-        return Parser.getPagesList(sectionName);
+    public String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException {
+        try {
+            return Parser.getPagesListFromSection(sectionName);
+        } catch (NonExistentSectionException e){
+            throw new InvalidCommandArgumentsException();
+        } catch (FailedConnectionException e){
+            throw new FailedCommandExecutionException();
+        }
     }
 }

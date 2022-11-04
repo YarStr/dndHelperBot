@@ -1,5 +1,7 @@
 package parser;
 
+import botLogic.FailedConnectionException;
+import botLogic.NonExistentSectionException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,8 +18,19 @@ public class Parser {
      *
      * @return сообщение - список страниц
      */
-    public static String getPagesList(String sectionName) throws IOException {
-        Document section = Jsoup.connect("https://dnd.su/" + sectionName.toLowerCase()).get();
+    public static String getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
+        enum sections { RACE, CLASS };
+        try {
+            sections.valueOf(sectionName.toUpperCase());
+        } catch (IllegalArgumentException e){
+            throw new NonExistentSectionException();
+        }
+        Document section;
+        try {
+            section = Jsoup.connect("https://dnd.su/" + sectionName.toLowerCase()).get();
+        } catch (IOException e) {
+            throw new FailedConnectionException();
+        }
         Elements raceList = section.select("span[class=\"article_title\"]");
         StringBuilder pagesList = new StringBuilder();
         for (Element raceListElement : raceList) {
@@ -63,28 +76,8 @@ public class Parser {
         }
         return "";
     }
-
-    //    /**
-//     * Метод, который осуществляет получение страницы для ответа на поисковый запрос
-//     * и дальнейший поиск нужной расы
-//     *
-//     * @param message - запрос пользователя
-//     * @return true, если раса найдена, иначе - false
-//     */
-//    public static boolean isPageExists(String message) {
-//        Document section;
-//        try {
-//            section = Jsoup.connect("https://dnd.su/race/").get();
-//        } catch (IOException e) {
-//            return false;
-//        }
-//        Elements raceList = section.select("span[class=\"article_title\"]");
-//
-//        for (Element raceListElement : raceList) {
-//            if (raceListElement.text().equalsIgnoreCase(message)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+     public static void main(String[] args) {
+         enum sections { RACE, CLASS };
+         System.out.println(sections.valueOf("race".toUpperCase()));
+     }
 }

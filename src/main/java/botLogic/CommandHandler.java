@@ -25,14 +25,18 @@ public class CommandHandler {
      */
     public String handleMessage(Message message) {
         ArrayList<String> availableCommands = state.getAvailableCommands();
+        String answer = "ОШИБКА! Введённая команда недоступна.";
         if (availableCommands.contains(message.command())) {
-            CommandExecutionResult executionResult = safeExecuteCommand(message);
-            if (executionResult.isCorrectlyExecuted()) {
+            try {
+                answer = executeCommand(message);
                 state = state.nextState(message);
+            } catch (InvalidCommandArgumentsException e) {
+                return "У команды неверно введены аргументы. Попробуй ещё раз!";
+            } catch (FailedCommandExecutionException e) {
+                return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
             }
-            return executionResult.result();
         }
-        return "ОШИБКА! Введённая команда недоступна";
+        return answer;
     }
 
     /**
@@ -41,11 +45,13 @@ public class CommandHandler {
      * @param message - сообщение
      * @return возвращает результат выполнения команды с информацией о том, была ли она корректно выполнена
      */
-    private CommandExecutionResult safeExecuteCommand(Message message) {
+    private String safeExecuteCommand(Message message) {
         try {
             return executeCommand(message);
-        } catch (Exception e) {
-            return new CommandExecutionResult("Ошибка! Неверные аргументы команды", false);
+        } catch (InvalidCommandArgumentsException e) {
+            return "Ошибка! Команде передан неверный аргумент";
+        } catch (FailedCommandExecutionException e){
+            return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
         }
     }
 
@@ -54,17 +60,17 @@ public class CommandHandler {
      *
      * @param message - сообщение
      * @return возвращает результат выполнения команды
-     * @throws Exception вызывает исключение в случае ошибки при обработке аргументов команды
+     * ПЕРЕПИСАТЬ
      */
-    private CommandExecutionResult executeCommand(Message message) throws Exception {
+    private String executeCommand(Message message) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (message.command()) {
             case "/help" -> new HelpCommand();
             case "/race" -> new RaceInfoCommand(message.arguments());
             case "/list" -> new ListCommand(message.arguments());
             case "/more" -> new MoreRaceInfoCommand();
             case "/exit" -> new ExitCommand();
-            default -> throw new Exception();
+            default -> throw new FailedCommandExecutionException();
         };
-        return new CommandExecutionResult(currentCommand.getResult(), true);
+        return currentCommand.getResult();
     }
 }
