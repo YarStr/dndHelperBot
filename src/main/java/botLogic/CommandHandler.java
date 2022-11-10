@@ -33,7 +33,7 @@ public class CommandHandler {
             } catch (InvalidCommandArgumentsException e) {
                 return e.getMessage();
             } catch (FailedCommandExecutionException e) {
-                return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
+                return "Извините, я сломался и не смог выполнить команду :( Попробуйте ещё раз.";
             }
         }
         return answer;
@@ -50,7 +50,7 @@ public class CommandHandler {
             return executeCommand(message);
         } catch (InvalidCommandArgumentsException e) {
             return "Ошибка! Команде передан неверный аргумент";
-        } catch (FailedCommandExecutionException e){
+        } catch (FailedCommandExecutionException e) {
             return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
         }
     }
