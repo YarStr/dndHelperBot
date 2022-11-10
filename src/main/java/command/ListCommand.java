@@ -20,7 +20,9 @@ public class ListCommand implements Command {
      *
      * @param arguments - аргументы команды
      */
-    public ListCommand(ArrayList<String> arguments) {
+    public ListCommand(ArrayList<String> arguments) throws InvalidCommandArgumentsException {
+        if (arguments.size() != 1)
+            throw new InvalidCommandArgumentsException("У команды /list должен быть 1 аргумент.");
         sectionName = arguments.get(0);
     }
 
@@ -28,7 +30,7 @@ public class ListCommand implements Command {
         try {
             return Parser.getPagesListFromSection(sectionName);
         } catch (NonExistentSectionException e){
-            throw new InvalidCommandArgumentsException();
+            throw new InvalidCommandArgumentsException(e.getMessage());
         } catch (FailedConnectionException e){
             throw new FailedCommandExecutionException();
         }

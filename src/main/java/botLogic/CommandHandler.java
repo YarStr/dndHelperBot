@@ -25,13 +25,13 @@ public class CommandHandler {
      */
     public String handleMessage(Message message) {
         ArrayList<String> availableCommands = state.getAvailableCommands();
-        String answer = "ОШИБКА! Введённая команда недоступна.";
+        String answer = "Введённая команда недоступна.";
         if (availableCommands.contains(message.command())) {
             try {
                 answer = executeCommand(message);
                 state = state.nextState(message);
             } catch (InvalidCommandArgumentsException e) {
-                return "У команды неверно введены аргументы. Попробуй ещё раз!";
+                return e.getMessage();
             } catch (FailedCommandExecutionException e) {
                 return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
             }

@@ -1,6 +1,8 @@
 package command.raceCommand;
 
 import command.Command;
+import command.FailedCommandExecutionException;
+import command.InvalidCommandArgumentsException;
 import pages.Page;
 
 import java.util.ArrayList;
@@ -15,12 +17,12 @@ public class RaceInfoCommand extends RaceCommand implements Command {
      * @param arguments - аргументы команды
      * @throws Exception вызывает исключение в случае невозможности создать команду с данными аргументами
      */
-    public RaceInfoCommand(ArrayList<String> arguments) throws Exception {
-        race = new Page(arguments.get(0));
+    public RaceInfoCommand(ArrayList<String> arguments) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
+        race = new Page("race", arguments.get(0));
     }
 
     @Override
     public String getResult() {
-        return race.getMainInformation();
+        return race.getAllFeatures();
     }
 }

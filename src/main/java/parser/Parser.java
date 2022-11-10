@@ -8,12 +8,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Класс для парсинга сайта dnd.su
  */
 public class Parser {
-    private enum sections { RACE, CLASS };
+    private enum sections {RACE, CLASS}
+
+    ;
+
     /**
      * Функция получения всех доступных страниц секции сайта
      *
@@ -23,8 +28,8 @@ public class Parser {
     private static Document getSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
         try {
             sections.valueOf(sectionName.toUpperCase());
-        } catch (IllegalArgumentException e){
-            throw new NonExistentSectionException();
+        } catch (IllegalArgumentException e) {
+            throw new NonExistentSectionException("Раздела " + sectionName + " нет на сайте dnd.su :(");
         }
         try {
             return Jsoup.connect("https://dnd.su/" + sectionName.toLowerCase()).get();
@@ -32,6 +37,7 @@ public class Parser {
             throw new FailedConnectionException();
         }
     }
+
     public static String getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
         Document section = getSection(sectionName);
         Elements raceList = section.select("span[class=\"article_title\"]");
@@ -42,7 +48,7 @@ public class Parser {
         return pagesList.toString();
     }
 
-    public static String getPageLink(String sectionName, String pageName) throws FailedConnectionException, NonExistentSectionException {
+    public static String getPageLink(String sectionName, String pageName) throws FailedConnectionException, NonExistentSectionException, NonExistentPageException {
         Document section = getSection(sectionName);
         Elements raceList = section.select("a:has(span[class=\"article_title\"])");
         for (Element raceElement : raceList) {
@@ -50,7 +56,7 @@ public class Parser {
                 return raceElement.attr("href");
             }
         }
-        return "";
+        throw new NonExistentPageException("Страница " + pageName + " не была найдена на сайте dnd.su :(");
     }
 
     /**
@@ -58,39 +64,24 @@ public class Parser {
      *
      * @param link - ссылка на страницу с поисковым запросом
      * @return возвращает основную информацию
-     * @throws IOException вызывается, если подключение к странице не произошло
+     * !!!ПОЧИНИТЬ ОПИСАНИЕ
      */
-    public static String getMainInfoFromPage(String link) throws FailedConnectionException {
+    public static Map<String, String> getRaceFeatures(String link) throws FailedConnectionException {
         Document section;
         try {
             section = Jsoup.connect("https://dnd.su" + link).get();
         } catch (IOException e) {
             throw new FailedConnectionException();
         }
-        Elements mainInfoElements = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
-        StringBuilder output = new StringBuilder();
-        for (Element element : mainInfoElements) {
-            output.append(element.text()).append('\n');
+        Elements featureElements = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
+        Map<String, String> featureElementsMap = new HashMap<>();
+        for (Element element : featureElements) {
+            String title = element.select("strong").text();
+            if (title.equals("Мировоззрение"))
+                featureElementsMap.put("Мировоззрение.", element.select("span").text());
+            else
+                featureElementsMap.put(title, element.ownText());
         }
-        if (output.toString().equals(""))
-            throw new IOException();
-        return output.substring(0, output.length() - 1);
+        return featureElementsMap;
     }
-
-    /**
-     * Метод, который осуществляет получение ссылки на страницу
-     *
-     * @param pageName - имя страницы
-     * @return возвращает ссылку на страницу
-     * ПРОПИСАТЬ ИСКЛЮЧЕНИЯ
-     */
-
-
-    /*
-    ВРЕМЕННАЯ ТОЧКА ВХОДА ДЛЯ ТЕСТИРОВАНИЯ
-     */
-     public static void main(String[] args) {
-         enum sections { RACE, CLASS };
-         System.out.println(sections.valueOf("race".toUpperCase()));
-     }
 }
