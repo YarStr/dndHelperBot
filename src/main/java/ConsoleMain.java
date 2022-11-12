@@ -5,7 +5,7 @@ import bots.ConsoleBot;
  *
  * @author Yaroslav Strakhov and Novikova Anastasia
  */
-public class Main {
+public class ConsoleMain {
     public static void main(String[] args) {
         ConsoleBot bot = new ConsoleBot();
         bot.start();

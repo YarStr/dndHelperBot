@@ -1,7 +1,7 @@
 package command.raceCommand;
 
 import command.Command;
-import command.InvalidCommandArgumentsException;
+import command.exceptions.InvalidCommandArgumentsException;
 
 import java.util.ArrayList;
 

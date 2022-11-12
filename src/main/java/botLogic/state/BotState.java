@@ -1,6 +1,6 @@
 package botLogic.state;
 
-import message.Message;
+import request.Request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +14,8 @@ public enum BotState {
      */
     Main {
         @Override
-        public BotState nextState(Message message) {
-            if (message.command().equals("/race"))
+        public BotState nextState(Request request) {
+            if (request.command().equals("/race"))
                 return RaceInfo;
             return this;
         }
@@ -47,8 +47,8 @@ public enum BotState {
         }
 
         @Override
-        public BotState nextState(Message message) {
-            if (message.command().equals("/exit"))
+        public BotState nextState(Request request) {
+            if (request.command().equals("/exit"))
                 return Main;
             return this;
         }
@@ -57,10 +57,10 @@ public enum BotState {
     /**
      * Функция перехода в следующее состояние
      *
-     * @param message - команда, после которой состояние может измениться
+     * @param request - команда, после которой состояние может измениться
      * @return возвращает новое состояние диалога бота
      */
-    public abstract BotState nextState(Message message);
+    public abstract BotState nextState(Request request);
 
     /**
      * Функция получения доступных команд в текущем состоянии

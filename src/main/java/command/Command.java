@@ -1,5 +1,8 @@
 package command;
 
+import command.exceptions.FailedCommandExecutionException;
+import command.exceptions.InvalidCommandArgumentsException;
+
 import java.io.IOException;
 
 /**
@@ -12,5 +15,5 @@ public interface Command {
      * @return результат команды
      * @throws IOException вызывает исключение в случае ошибки при получении данных командой
      */
-    String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException ;
+    String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException;
 }

@@ -1,8 +1,8 @@
 package command.raceCommand;
 
 import command.Command;
-import command.FailedCommandExecutionException;
-import command.InvalidCommandArgumentsException;
+import command.exceptions.FailedCommandExecutionException;
+import command.exceptions.InvalidCommandArgumentsException;
 import pages.PageBuilder;
 
 import java.util.ArrayList;

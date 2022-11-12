@@ -1,9 +1,11 @@
 package botLogic;
 
 import command.*;
+import command.exceptions.FailedCommandExecutionException;
+import command.exceptions.InvalidCommandArgumentsException;
 import command.raceCommand.MoreRaceInfoCommand;
 import command.raceCommand.RaceInfoCommand;
-import message.Message;
+import request.Request;
 import botLogic.state.BotState;
 
 import java.util.ArrayList;
@@ -20,16 +22,16 @@ public class CommandHandler {
     /**
      * Функция обработки сообщения и вызова описанной в нём команды
      *
-     * @param message - сообщение
+     * @param request - сообщение
      * @return возвращает результат вызванной команды
      */
-    public String handleMessage(Message message) {
+    public String handleRequest(Request request) {
         ArrayList<String> availableCommands = state.getAvailableCommands();
         String answer = "Введённая команда недоступна.";
-        if (availableCommands.contains(message.command())) {
+        if (availableCommands.contains(request.command())) {
             try {
-                answer = executeCommand(message);
-                state = state.nextState(message);
+                answer = executeCommand(request);
+                state = state.nextState(request);
             } catch (InvalidCommandArgumentsException e) {
                 return e.getMessage();
             } catch (FailedCommandExecutionException e) {
@@ -42,16 +44,17 @@ public class CommandHandler {
     /**
      * Функция выполнения команды, описываемой сообщением
      *
-     * @param message - сообщение
+     * @param request - сообщение
      * @return возвращает результат выполнения команды
      * ПЕРЕПИСАТЬ
      */
-    private String executeCommand(Message message) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
-        Command currentCommand = switch (message.command()) {
+    private String executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
+        Command currentCommand = switch (request.command()) {
+            case "/start" -> new StartCommand();
             case "/help" -> new HelpCommand();
-            case "/race" -> new RaceInfoCommand(message.arguments());
-            case "/list" -> new ListCommand(message.arguments());
-            case "/info" -> new MoreRaceInfoCommand(message.arguments());
+            case "/race" -> new RaceInfoCommand(request.arguments());
+            case "/list" -> new ListCommand(request.arguments());
+            case "/info" -> new MoreRaceInfoCommand(request.arguments());
             case "/exit" -> new ExitCommand();
             default -> throw new FailedCommandExecutionException();
         };

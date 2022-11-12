@@ -2,18 +2,20 @@ package bots;
 
 import dataIO.*;
 import botLogic.CommandHandler;
-import message.Message;
-import message.MessageCreator;
+import request.Request;
+import request.RequestCreator;
 
 /**
  * Класс бота, работающего в консоли
  */
 
 public class ConsoleBot {
+
+    private final InputModule inputModule;
     /**
      * Поле модуль генератор запросов
      */
-    private final MessageCreator messageCreator;
+    private final RequestCreator requestCreator;
     /**
      * Поле обработчик запросов
      */
@@ -27,7 +29,8 @@ public class ConsoleBot {
      * Конструктор - создание нового объекта
      */
     public ConsoleBot() {
-        this.messageCreator = new MessageCreator(new ConsoleInput());
+        this.inputModule = new ConsoleInput();
+        this.requestCreator = new RequestCreator();
         this.commandHandler = new CommandHandler();
         this.outputModule = new ConsoleOutput();
     }
@@ -36,14 +39,14 @@ public class ConsoleBot {
      * Функция, запускающая работу бота
      */
     public void start() {
-        outputModule.sendData("""
-                Привет! Я dndHelperBot, помогающий быстро найти информацию о правилах игры D&D 5e с сайта https://dnd.su
-                Для вывода доступных команд введите /help""");
+        Request request = requestCreator.getMessage("/start");
+        outputModule.sendData(commandHandler.handleRequest(request));
         while (true) {
-            Message message = null;
-            while (message == null)
-                message = messageCreator.getMessage();
-            outputModule.sendData(commandHandler.handleMessage(message));
+            String inputLine = null;
+            while (inputLine == null)
+                inputLine = inputModule.getData();
+            request = requestCreator.getMessage(inputLine);
+            outputModule.sendData(commandHandler.handleRequest(request));
         }
     }
 }

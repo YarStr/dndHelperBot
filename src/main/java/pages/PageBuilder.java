@@ -1,13 +1,12 @@
 package pages;
 
-import botLogic.FailedConnectionException;
-import botLogic.NonExistentSectionException;
-import command.FailedCommandExecutionException;
-import command.InvalidCommandArgumentsException;
-import parser.NonExistentPageException;
+import parser.exceptions.FailedConnectionException;
+import parser.exceptions.NonExistentSectionException;
+import command.exceptions.FailedCommandExecutionException;
+import command.exceptions.InvalidCommandArgumentsException;
+import parser.exceptions.NonExistentPageException;
 import parser.Parser;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class PageBuilder {

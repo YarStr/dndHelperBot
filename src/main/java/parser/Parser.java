@@ -1,11 +1,12 @@
 package parser;
 
-import botLogic.FailedConnectionException;
-import botLogic.NonExistentSectionException;
+import parser.exceptions.FailedConnectionException;
+import parser.exceptions.NonExistentSectionException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import parser.exceptions.NonExistentPageException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,9 +16,7 @@ import java.util.Map;
  * Класс для парсинга сайта dnd.su
  */
 public class Parser {
-    private enum sections {RACE, CLASS}
-
-    ;
+    private enum sections { RACE, CLASS }
 
     /**
      * Функция получения всех доступных страниц секции сайта
@@ -32,7 +31,9 @@ public class Parser {
             throw new NonExistentSectionException("Раздела " + sectionName + " нет на сайте dnd.su :(");
         }
         try {
-            return Jsoup.connect("https://dnd.su/" + sectionName.toLowerCase()).get();
+            return Jsoup.connect("https://dnd.su/" + sectionName.toLowerCase())
+                    .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+                    .get();
         } catch (IOException e) {
             throw new FailedConnectionException();
         }

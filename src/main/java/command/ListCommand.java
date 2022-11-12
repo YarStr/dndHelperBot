@@ -1,7 +1,9 @@
 package command;
 
-import botLogic.FailedConnectionException;
-import botLogic.NonExistentSectionException;
+import parser.exceptions.FailedConnectionException;
+import parser.exceptions.NonExistentSectionException;
+import command.exceptions.FailedCommandExecutionException;
+import command.exceptions.InvalidCommandArgumentsException;
 import parser.Parser;
 
 import java.util.ArrayList;
