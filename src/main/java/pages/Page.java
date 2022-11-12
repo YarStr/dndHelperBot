@@ -1,14 +1,9 @@
 package pages;
 
-import botLogic.FailedConnectionException;
-import botLogic.NonExistentSectionException;
-import command.FailedCommandExecutionException;
-import command.InvalidCommandArgumentsException;
-import parser.NonExistentPageException;
-import parser.Parser;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -19,60 +14,24 @@ public class Page {
     /**
      * Поле ссылка на страницу
      */
-    private String link;
-    private Map<String, String> mainFeatures;
-//    private Map<String, String> additionFeatures;
+    private final Map<String, String> FEATURES_NAMES_MATCH = Map.of(
+            "score", "Увеличение характеристик.",
+            "age", "Возраст.",
+            "alignment", "Мировоззрение.",
+            "size", "Размер.",
+            "speed", "Скорость.",
+            "languages", "Языки."
+    );
+    private final String link;
+    private final Map<String, String> mainFeatures;
 
     /**
      * Конструктор класса страницы
      */
-    public Page(String sectionName, String pageName) throws FailedCommandExecutionException, InvalidCommandArgumentsException {
-        setLink(sectionName, pageName);
-        setInfoBlocks(link);
+    public Page(String link, Map<String, String> mainFeatures) {
+        this.link = link;
+        this.mainFeatures = mainFeatures;
     }
-
-    /**
-     * Метод, устанавливающий в поле link ссылку на данную страницу на сайте
-     *
-     * @param pageName - название страницы
-     */
-    public void setLink(String sectionName, String pageName) throws FailedCommandExecutionException, InvalidCommandArgumentsException {
-        try {
-            link = Parser.getPageLink(sectionName, pageName);
-        } catch (FailedConnectionException | NonExistentSectionException e) {
-            throw new FailedCommandExecutionException();
-        } catch (NonExistentPageException e) {
-            throw new InvalidCommandArgumentsException(e.getMessage());
-        }
-    }
-
-    /**
-     * Метод, устанавливающий в поле mainInformation основную информацию страницы
-     *
-     * @param link - ссылка на страницу
-     */
-    public void setInfoBlocks(String link) throws FailedCommandExecutionException {
-        try {
-            mainFeatures = Parser.getRaceFeatures(link);
-        } catch (FailedConnectionException e) {
-            throw new FailedCommandExecutionException();
-        }
-//         ArrayList<String> MAIN_RACE_INFO = new ArrayList<>(Arrays.asList(
-//                "Увеличение характеристик.",
-//                "Возраст.",
-//                "Мировоззрение.",
-//                "Размер.",
-//                "Скорость.",
-//                "Языки."
-//        ));
-//        for (String title : allInfoMap.keySet()){
-//            if (MAIN_RACE_INFO.contains(title))
-//                mainFeatures.put(title, allInfoMap.get(title));
-//            else
-//                additionFeatures.put(title, allInfoMap.get(title));
-//        }
-    }
-
 
     /**
      * Метод получения ссылки на страницу
@@ -83,25 +42,16 @@ public class Page {
         return link;
     }
 
-    /**
-     * Метод получения основной информации страницы
-     *
-     * @return возвращает основную информацию страницы
-     */
-    public String getAllFeatures() {
-        StringBuilder answer = new StringBuilder();
-        for (String title : mainFeatures.keySet()) {
-            answer.append(title)
-                    .append(" ")
-                    .append(mainFeatures.get(title))
-                    .append("\n");
-        }
-        return String.valueOf(answer);
-    }
+    public String getFeatures(ArrayList<String> features){
+        Set<String> chosenFeatures = new HashSet<>();
+        if (features.contains("all"))
+            chosenFeatures = mainFeatures.keySet();
+        else
+            for (String x : features)
+                chosenFeatures.add(FEATURES_NAMES_MATCH.get(x));
 
-    public String getSelectedFeatures(ArrayList<String> features) {
         StringBuilder answer = new StringBuilder();
-        for (String title : features) {
+        for (String title : chosenFeatures) {
             answer.append(title)
                     .append(" ")
                     .append(mainFeatures.get(title))

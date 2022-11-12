@@ -23,6 +23,7 @@ public enum BotState {
         @Override
         public ArrayList<String> getAvailableCommands() {
             String[] commands = new String[]{
+                    "/start",
                     "/help",
                     "/list",
                     "/race"
@@ -39,7 +40,7 @@ public enum BotState {
         public ArrayList<String> getAvailableCommands() {
             String[] commands = new String[]{
                     "/help",
-                    "/more",
+                    "/info",
                     "/exit"
             };
             return new ArrayList<>(Arrays.asList(commands));

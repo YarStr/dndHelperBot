@@ -40,22 +40,6 @@ public class CommandHandler {
     }
 
     /**
-     * Функция безопасного выполнения команды, описываемой сообщением
-     *
-     * @param message - сообщение
-     * @return возвращает результат выполнения команды с информацией о том, была ли она корректно выполнена
-     */
-    private String safeExecuteCommand(Message message) {
-        try {
-            return executeCommand(message);
-        } catch (InvalidCommandArgumentsException e) {
-            return "Ошибка! Команде передан неверный аргумент";
-        } catch (FailedCommandExecutionException e) {
-            return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
-        }
-    }
-
-    /**
      * Функция выполнения команды, описываемой сообщением
      *
      * @param message - сообщение
@@ -67,7 +51,7 @@ public class CommandHandler {
             case "/help" -> new HelpCommand();
             case "/race" -> new RaceInfoCommand(message.arguments());
             case "/list" -> new ListCommand(message.arguments());
-            case "/more" -> new MoreRaceInfoCommand();
+            case "/info" -> new MoreRaceInfoCommand(message.arguments());
             case "/exit" -> new ExitCommand();
             default -> throw new FailedCommandExecutionException();
         };
