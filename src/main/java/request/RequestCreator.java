@@ -14,7 +14,7 @@ public record RequestCreator() {
      */
     public Request getMessage(String text) {
         ArrayList<String> parsedMessage = new ArrayList<>(Arrays.asList(text.split(" ")));
-        String command = parsedMessage.get(0);
+        String command = parsedMessage.get(0).toLowerCase().replace("/", "");
         parsedMessage.remove(0);
         return new Request(command, parsedMessage);
     }

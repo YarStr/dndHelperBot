@@ -1,5 +1,6 @@
 package botLogic.state;
 
+import command.CommandList;
 import request.Request;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public enum BotState {
     Main {
         @Override
         public BotState nextState(Request request) {
-            if (request.command().equals("/race"))
+            if (request.command().equals(CommandList.RACE))
                 return RaceInfo;
             return this;
         }
@@ -23,10 +24,10 @@ public enum BotState {
         @Override
         public ArrayList<String> getAvailableCommands() {
             String[] commands = new String[]{
-                    "/start",
-                    "/help",
-                    "/list",
-                    "/race"
+                    CommandList.START,
+                    CommandList.HELP,
+                    CommandList.RACE,
+                    CommandList.LIST,
             };
             return new ArrayList<>(Arrays.asList(commands));
         }
@@ -39,16 +40,16 @@ public enum BotState {
         @Override
         public ArrayList<String> getAvailableCommands() {
             String[] commands = new String[]{
-                    "/help",
-                    "/info",
-                    "/exit"
+                    CommandList.HELP,
+                    CommandList.INFO,
+                    CommandList.EXIT
             };
             return new ArrayList<>(Arrays.asList(commands));
         }
 
         @Override
         public BotState nextState(Request request) {
-            if (request.command().equals("/exit"))
+            if (request.command().equals(CommandList.EXIT))
                 return Main;
             return this;
         }
