@@ -1,5 +1,8 @@
 package command;
 
+/**
+ * Класс хранения строковых представлений команд бота
+ */
 public class CommandList {
     public static final  String START = "start";
     public static final String HELP = "help";

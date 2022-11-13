@@ -16,17 +16,16 @@ import java.util.Map;
  * Класс для парсинга сайта dnd.su
  */
 public class Parser {
-    private enum sections { RACE, CLASS }
-
     /**
      * Функция получения всех доступных страниц секции сайта
      *
      * @return сообщение - список страниц
+     * @throws NonExistentSectionException при попытке подключиться к недоступной боту секции сайта dnd.su
+     * @throws FailedConnectionException когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
      */
-
     private static Document getSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
         try {
-            sections.valueOf(sectionName.toUpperCase());
+            Sections.valueOf(sectionName.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new NonExistentSectionException("Раздела " + sectionName + " нет на сайте dnd.su :(");
         }
@@ -39,6 +38,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Метод получения списка доступных страниц из секции сайта dnd.su
+     * @param sectionName название секции сайта
+     * @return строка, содержащая все доступные в секции страницы
+     * @throws NonExistentSectionException при попытке подключиться к недоступной боту секции сайта dnd.su
+     * @throws FailedConnectionException когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
+     */
     public static String getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
         Document section = getSection(sectionName);
         Elements raceList = section.select("span[class=\"article_title\"]");
@@ -49,6 +55,15 @@ public class Parser {
         return pagesList.toString();
     }
 
+    /**
+     * Метод получения ссылки на страницу
+     * @param sectionName название секции, в которой находится страница
+     * @param pageName название страницы
+     * @return ссылка на страницу
+     * @throws FailedConnectionException когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
+     * @throws NonExistentSectionException при попытке подключиться к недоступной боту секции сайта dnd.su
+     * @throws NonExistentPageException при попытке подключиться к несуществующей странице боту сайта dnd.su
+     */
     public static String getPageLink(String sectionName, String pageName) throws FailedConnectionException, NonExistentSectionException, NonExistentPageException {
         Document section = getSection(sectionName);
         Elements raceList = section.select("a:has(span[class=\"article_title\"])");
@@ -61,11 +76,10 @@ public class Parser {
     }
 
     /**
-     * Метод, который осуществляет получение основной информации страницы
-     *
-     * @param link - ссылка на страницу с поисковым запросом
-     * @return возвращает основную информацию
-     * !!!ПОЧИНИТЬ ОПИСАНИЕ
+     * Метод получения основной информации со страницы расы
+     * @param link ссылка на страницу расы
+     * @return основную информацию, разбитую на блоки
+     * @throws FailedConnectionException когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
      */
     public static Map<String, String> getRaceFeatures(String link) throws FailedConnectionException {
         Document section;

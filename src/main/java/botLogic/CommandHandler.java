@@ -20,9 +20,9 @@ public class CommandHandler {
     private BotState state = BotState.Main;
 
     /**
-     * Функция обработки сообщения и вызова описанной в нём команды
+     * Функция обработки запроса и вызова описанной в нём команды
      *
-     * @param request - сообщение
+     * @param request - запрос
      * @return возвращает результат вызванной команды
      */
     public String handleRequest(Request request) {
@@ -44,9 +44,10 @@ public class CommandHandler {
     /**
      * Функция выполнения команды, описываемой сообщением
      *
-     * @param request - сообщение
+     * @param request запрос
      * @return возвращает результат выполнения команды
-     * ПЕРЕПИСАТЬ
+     * @throws InvalidCommandArgumentsException когда команда вызвана с неправильным набором аргументов
+     * @throws FailedCommandExecutionException когда не удалось выполнить команду по причинам, не зависящим от пользователя
      */
     private String executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (request.command()) {
