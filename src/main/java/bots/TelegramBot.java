@@ -18,11 +18,18 @@ public class TelegramBot extends TelegramLongPollingBot {
     /**
      * Поле имя бота
      */
-    private final String botName = "dndAdviserBot";
+    @Override
+    public String getBotUsername() {
+        return Configurations.botName;
+    }
+
     /**
      * Поле токен бота
      */
-    private final String botToken = "5694306706:AAHq2aAwGr4oEugT0syBw8jabCz_WZRZt7A";
+    @Override
+    public String getBotToken() {
+        return Configurations.botToken;
+    }
 
     /**
      * Поле модуль генератор запросов
@@ -48,22 +55,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     /**
-     * Геттер для имени бота
-     */
-    @Override
-    public String getBotUsername() {
-        return botName;
-    }
-    /**
-     * Геттер для токена
-     */
-
-    public String getBotToken() {
-        return botToken;
-    }
-
-    /**
      * Метод, запускающий работу бота
+     *
      * @param update все обновления чата
      */
     @Override
@@ -71,17 +64,26 @@ public class TelegramBot extends TelegramLongPollingBot {
         try {
             if (update.hasMessage() && update.getMessage().hasText()) {
                 Message inputMessage = update.getMessage();
-                String chatId = inputMessage.getChatId().toString();
-                Request message = requestCreator.getMessage(inputMessage.getText());
+                Request request = requestCreator.getRequest(inputMessage.getText());
 
-                SendMessage outputMessage = new SendMessage();
-                outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
-                outputMessage.setText(commandHandler.handleRequest(message));
-                outputMessage.setChatId(chatId);
-                execute(outputMessage);
+                execute(getOutputMessage(inputMessage, request));
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Метод, формирующий ответное сообщение
+     *
+     * @param inputMessage входящее сообщение
+     * @param request      запрос от пользователя
+     */
+    private SendMessage getOutputMessage(Message inputMessage, Request request) {
+        SendMessage outputMessage = new SendMessage();
+        outputMessage.setText(commandHandler.handleRequest(request));
+        outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
+        outputMessage.setChatId(inputMessage.getChatId().toString());
+        return outputMessage;
     }
 }
