@@ -38,7 +38,6 @@ public class KeyboardCreator {
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
 
-
         // и устанавливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
 

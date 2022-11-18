@@ -23,13 +23,12 @@ public enum BotState {
 
         @Override
         public ArrayList<String> getAvailableCommands() {
-            String[] commands = new String[]{
+            return new ArrayList<>(Arrays.asList(
                     CommandList.START,
                     CommandList.HELP,
                     CommandList.RACE,
-                    CommandList.LIST,
-            };
-            return new ArrayList<>(Arrays.asList(commands));
+                    CommandList.LIST
+            ));
         }
     },
 
@@ -39,12 +38,11 @@ public enum BotState {
     RaceInfo {
         @Override
         public ArrayList<String> getAvailableCommands() {
-            String[] commands = new String[]{
+            return new ArrayList<>(Arrays.asList(
                     CommandList.HELP,
                     CommandList.INFO,
                     CommandList.EXIT
-            };
-            return new ArrayList<>(Arrays.asList(commands));
+            ));
         }
 
         @Override

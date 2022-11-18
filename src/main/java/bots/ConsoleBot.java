@@ -39,13 +39,13 @@ public class ConsoleBot {
      * Функция, запускающая работу бота
      */
     public void start() {
-        Request request = requestCreator.getMessage("/start");
+        Request request = requestCreator.getRequest("/start");
         outputModule.sendData(commandHandler.handleRequest(request));
         while (true) {
             String inputLine = null;
             while (inputLine == null)
                 inputLine = inputModule.getData();
-            request = requestCreator.getMessage(inputLine);
+            request = requestCreator.getRequest(inputLine);
             outputModule.sendData(commandHandler.handleRequest(request));
         }
     }

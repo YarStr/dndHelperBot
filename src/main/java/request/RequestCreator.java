@@ -12,7 +12,7 @@ public record RequestCreator() {
      *
      * @return обработанное сообщение
      */
-    public Request getMessage(String text) {
+    public Request getRequest(String text) {
         ArrayList<String> parsedMessage = new ArrayList<>(Arrays.asList(text.split(" ")));
         String command = parsedMessage.get(0).toLowerCase().replace("/", "");
         parsedMessage.remove(0);
