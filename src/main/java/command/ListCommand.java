@@ -24,7 +24,7 @@ public class ListCommand implements Command {
      */
     public ListCommand(ArrayList<String> arguments) throws InvalidCommandArgumentsException {
         if (arguments.size() != 1)
-            throw new InvalidCommandArgumentsException("У команды /list должен быть 1 аргумент.");
+            throw new InvalidCommandArgumentsException("Вы не ввели ничего, кроме названия команды.");
         sectionName = arguments.get(0);
     }
 
