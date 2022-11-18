@@ -72,11 +72,11 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (update.hasMessage() && update.getMessage().hasText()) {
                 Message inputMessage = update.getMessage();
                 String chatId = inputMessage.getChatId().toString();
-                Request message = requestCreator.getRequest(inputMessage.getText());
+                Request request = requestCreator.getRequest(inputMessage.getText());
 
                 SendMessage outputMessage = new SendMessage();
                 outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
-                outputMessage.setText(commandHandler.handleRequest(message));
+                outputMessage.setText(commandHandler.handleRequest(request));
                 outputMessage.setChatId(chatId);
                 execute(outputMessage);
             }
