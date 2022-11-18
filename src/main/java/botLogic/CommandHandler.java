@@ -20,9 +20,9 @@ public class CommandHandler {
     private BotState state = BotState.Main;
 
     /**
-     * Функция обработки запроса и вызова описанной в нём команды
+     * Функция обработки сообщения и вызова описанной в нём команды
      *
-     * @param request - запрос
+     * @param request - сообщение
      * @return возвращает результат вызванной команды
      */
     public String handleRequest(Request request) {
@@ -44,19 +44,18 @@ public class CommandHandler {
     /**
      * Функция выполнения команды, описываемой сообщением
      *
-     * @param request запрос
+     * @param request - сообщение
      * @return возвращает результат выполнения команды
-     * @throws InvalidCommandArgumentsException когда команда вызвана с неправильным набором аргументов
-     * @throws FailedCommandExecutionException когда не удалось выполнить команду по причинам, не зависящим от пользователя
+     * ПЕРЕПИСАТЬ
      */
     private String executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (request.command()) {
-            case CommandList.START -> new StartCommand();
-            case CommandList.HELP -> new HelpCommand();
-            case CommandList.RACE -> new RaceInfoCommand(request.arguments());
-            case CommandList.LIST -> new ListCommand(request.arguments());
-            case CommandList.INFO -> new MoreRaceInfoCommand(request.arguments());
-            case CommandList.EXIT -> new ExitCommand();
+            case "/start" -> new StartCommand();
+            case "/help" -> new HelpCommand();
+            case "/race" -> new RaceInfoCommand(request.arguments());
+            case "/list" -> new ListCommand(request.arguments());
+            case "/info" -> new MoreRaceInfoCommand(request.arguments());
+            case "/exit" -> new ExitCommand();
             default -> throw new FailedCommandExecutionException();
         };
         return currentCommand.getResult();

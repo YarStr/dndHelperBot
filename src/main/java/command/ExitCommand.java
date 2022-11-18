@@ -6,6 +6,6 @@ package command;
 public class ExitCommand implements Command{
     @Override
     public String getResult() {
-        return "";
+        return "Что хочешь ещё узнать? :)";
     }
 }

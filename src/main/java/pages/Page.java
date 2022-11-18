@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class Page {
     /**
-     * Таблица сопоставления блоков основной информации и их названий
+     * Поле ссылка на страницу
      */
     private final Map<String, String> FEATURES_NAMES_MATCH = Map.of(
             "score", "Увеличение характеристик.",
@@ -22,15 +22,7 @@ public class Page {
             "speed", "Скорость.",
             "languages", "Языки."
     );
-
-    /**
-     * Ссылка на страницу
-     */
     private final String link;
-
-    /**
-     * Основная информация со страницы
-     */
     private final Map<String, String> mainFeatures;
 
     /**
@@ -50,12 +42,7 @@ public class Page {
         return link;
     }
 
-    /**
-     * Метод получения блоков основной информации со страницы
-     * @param features список блоков
-     * @return строка с информацией запрашиваемых блоков
-     */
-    public String getFeatures(ArrayList<String> features) {
+    public String getFeatures(ArrayList<String> features){
         Set<String> chosenFeatures = new HashSet<>();
         if (features.contains("all"))
             chosenFeatures = mainFeatures.keySet();

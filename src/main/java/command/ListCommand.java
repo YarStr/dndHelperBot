@@ -27,6 +27,7 @@ public class ListCommand implements Command {
             throw new InvalidCommandArgumentsException("У команды /list должен быть 1 аргумент.");
         sectionName = arguments.get(0);
     }
+
     public String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         try {
             return Parser.getPagesListFromSection(sectionName);
