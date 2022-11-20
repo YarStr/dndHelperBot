@@ -50,12 +50,12 @@ public class CommandHandler {
      */
     private String executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (request.command()) {
-            case "/start" -> new StartCommand();
-            case "/help" -> new HelpCommand();
-            case "/race" -> new RaceInfoCommand(request.arguments());
-            case "/list" -> new ListCommand(request.arguments());
-            case "/info" -> new MoreRaceInfoCommand(request.arguments());
-            case "/exit" -> new ExitCommand();
+            case CommandList.START -> new StartCommand();
+            case CommandList.HELP -> new HelpCommand();
+            case CommandList.RACE -> new RaceInfoCommand(request.arguments());
+            case CommandList.LIST -> new ListCommand(request.arguments());
+            case CommandList.INFO -> new MoreRaceInfoCommand(request.arguments());
+            case CommandList.EXIT -> new ExitCommand();
             default -> throw new FailedCommandExecutionException();
         };
         return currentCommand.getResult();

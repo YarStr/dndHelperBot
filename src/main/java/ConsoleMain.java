@@ -1,7 +1,7 @@
 import bots.ConsoleBot;
 
 /**
- * Точка входа в программу. Инициализация и запуск бота.
+ * Точка входа в программу. Инициализация и запуск бота в консоли.
  *
  * @author Yaroslav Strakhov and Novikova Anastasia
  */

@@ -1,9 +1,11 @@
 package botLogic;
 
 
+import botLogic.state.BotState;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import request.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +14,14 @@ import java.util.List;
  * Клавиатура в чате в Телеграм
  */
 public class KeyboardCreator {
+
     /**
      * Создание клавиатуры
      *
      * @return макет для создания клавиатуры
      */
 
-    public ReplyKeyboardMarkup createKeyboard() {
+    public ReplyKeyboardMarkup createKeyboard(Request request) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -27,6 +30,8 @@ public class KeyboardCreator {
         //Создаем нужное количество строк
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         KeyboardRow keyboardSecondRow = new KeyboardRow();
+
+
 
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton("/list class"));
