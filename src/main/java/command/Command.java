@@ -3,8 +3,6 @@ package command;
 import command.exceptions.FailedCommandExecutionException;
 import command.exceptions.InvalidCommandArgumentsException;
 
-import java.io.IOException;
-
 /**
  * Интерфейс команды бота
  */
@@ -12,8 +10,9 @@ public interface Command {
     /**
      * Функция получения результата выполнения команды
      *
-     * @return результат команды
-     * @throws IOException вызывает исключение в случае ошибки при получении данных командой
+     * @return результат команд
+     * @throws InvalidCommandArgumentsException когда команда вызвана с неправильным набором аргументов
+     * @throws FailedCommandExecutionException  когда не удалось выполнить команду по причинам, не зависящим от пользователя
      */
     String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException;
 }

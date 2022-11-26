@@ -9,11 +9,12 @@ public class HelpCommand implements Command {
             Список доступных команд:
             ------------------------
             /help - узнать умения бота
-            
+                        
             /list [race | class] - получить список всех доступных рас/классов
-            
+                        
             /race raceName - узнать основную информацию о расе
             """;
+
     public String getResult() {
         return COMMAND_MESSAGE;
     }
