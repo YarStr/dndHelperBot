@@ -9,17 +9,49 @@ import parser.Parser;
 
 import java.util.Map;
 
+/**
+ * Класс строитель класса страницы
+ */
+
 public class PageBuilder {
+    /**
+     * Название секции сайта, на которой находится старица
+     */
     private final String sectionName;
+
+    /**
+     * Название страницы
+     */
     private final String pageName;
+
+    /**
+     * Ссылка на страницу
+     */
     private String link;
+
+    /**
+     * Блоки с основной информацией страницы
+     */
     private Map<String, String> mainFeatures;
 
+    /**
+     * Конструктор класса
+     *
+     * @param sectionName название секции сайта
+     * @param pageName    название страницы
+     */
     public PageBuilder(String sectionName, String pageName) {
         this.sectionName = sectionName;
         this.pageName = pageName;
     }
 
+    /**
+     * Метод установки ссылки на создаваемую страницу
+     *
+     * @return экземпляр класса PageBuilder
+     * @throws FailedCommandExecutionException  когда не удалось построить класс с указанным названием секции или страницы
+     * @throws InvalidCommandArgumentsException когда не удалось выполнить команду по причинам, не зависящим от пользователя
+     */
     public PageBuilder setLink() throws FailedCommandExecutionException, InvalidCommandArgumentsException {
         try {
             link = Parser.getPageLink(sectionName, pageName);
@@ -31,6 +63,12 @@ public class PageBuilder {
         return this;
     }
 
+    /**
+     * Метод установки блоков основной информации страницы
+     *
+     * @return экземпляр класса PageBuilder
+     * @throws FailedCommandExecutionException когда не удалось выполнить команду по причинам, не зависящим от пользователя
+     */
     public PageBuilder setInfoBlocks() throws FailedCommandExecutionException {
         try {
             mainFeatures = Parser.getRaceFeatures(link);
@@ -38,23 +76,14 @@ public class PageBuilder {
             throw new FailedCommandExecutionException();
         }
         return this;
-//         ArrayList<String> MAIN_RACE_INFO = new ArrayList<>(Arrays.asList(
-//                "Увеличение характеристик.",
-//                "Возраст.",
-//                "Мировоззрение.",
-//                "Размер.",
-//                "Скорость.",
-//                "Языки."
-//        ));
-//        for (String title : allInfoMap.keySet()){
-//            if (MAIN_RACE_INFO.contains(title))
-//                mainFeatures.put(title, allInfoMap.get(title));
-//            else
-//                additionFeatures.put(title, allInfoMap.get(title));
-//        }
     }
 
-    public Page build(){
+    /**
+     * Метод завершения построения класса страницы
+     *
+     * @return экземпляр класса с установленными билдером полями
+     */
+    public Page build() {
         return new Page(link, mainFeatures);
     }
 }

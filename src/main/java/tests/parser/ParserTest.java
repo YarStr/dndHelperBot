@@ -16,12 +16,12 @@ class ParserTest {
 
 
     @Test
-    void testSearchSectionWithWrongArgument() throws IllegalArgumentException{
+    void testSearchSectionWithWrongArgument() throws IllegalArgumentException {
         assertThrows(NonExistentSectionException.class, () -> Parser.getPagesListFromSection(wrongSectionName));
     }
 
     @Test
-    void testCorrectPrintListFromSection () throws FailedConnectionException, NonExistentSectionException {
+    void testCorrectPrintListFromSection() throws FailedConnectionException, NonExistentSectionException {
         String list = Parser.getPagesListFromSection(rightSectionName);
         String[] result = list.split("\n");
         assertEquals("Багбир", result[2]);
@@ -35,7 +35,7 @@ class ParserTest {
     }
 
     @Test
-    void testGetPageLinkWithWrongArgument() throws IllegalArgumentException{
+    void testGetPageLinkWithWrongArgument() throws IllegalArgumentException {
         assertThrows(NonExistentPageException.class, () -> Parser.getPageLink(rightSectionName, wrongPageName));
     }
 }

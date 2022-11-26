@@ -31,9 +31,9 @@ public class ListCommand implements Command {
     public String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         try {
             return Parser.getPagesListFromSection(sectionName);
-        } catch (NonExistentSectionException e){
+        } catch (NonExistentSectionException e) {
             throw new InvalidCommandArgumentsException(e.getMessage());
-        } catch (FailedConnectionException e){
+        } catch (FailedConnectionException e) {
             throw new FailedCommandExecutionException();
         }
     }
