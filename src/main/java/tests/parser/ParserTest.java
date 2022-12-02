@@ -38,4 +38,9 @@ class ParserTest {
     void testGetPageLinkWithWrongArgument() throws IllegalArgumentException {
         assertThrows(NonExistentPageException.class, () -> Parser.getPageLink(rightSectionName, wrongPageName));
     }
+
+    @Test
+    void testGetPagesListFromRaceSection() throws FailedConnectionException, NonExistentSectionException {
+        System.out.println(Parser.getPagesListFromSection("race"));
+    }
 }
