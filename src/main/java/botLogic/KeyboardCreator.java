@@ -20,7 +20,7 @@ public class KeyboardCreator {
      * @return макет для создания клавиатуры
      */
 
-    public ReplyKeyboardMarkup createKeyboard(Request request) {
+    public ReplyKeyboardMarkup createKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
