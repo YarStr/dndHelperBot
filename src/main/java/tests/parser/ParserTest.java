@@ -24,8 +24,8 @@ class ParserTest {
     void testCorrectPrintListFromSection() throws FailedConnectionException, NonExistentSectionException {
         String list = Parser.getPagesListFromSection(rightSectionName);
         String[] result = list.split("\n");
-        assertEquals("Багбир", result[2]);
-        assertEquals("Гит", result[6]);
+        assertEquals("Багбир", result[4]);
+        assertEquals("Гит", result[8]);
     }
 
     @Test

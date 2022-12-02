@@ -10,20 +10,31 @@ import static org.testng.Assert.assertTrue;
 public class RequestCreatorTest {
 
     RequestCreator creator = new RequestCreator();
-    Request result = new Request(null, null);
+
+    Request request1 = creator.getRequest("help");
 
     @Test
-    void testGetRequestWithoutArguments(){
-        result = creator.getRequest("help");
-        assertEquals("help", result.command());
-        assertTrue(result.arguments().isEmpty());
+    void testGetCommandFromRequestWithoutArguments(){
+        assertEquals("help", request1.command());
     }
 
     @Test
-    void testGetRequestWithArguments(){
-        result = creator.getRequest("a b c");
-        assertEquals("a", result.command());
-        assertEquals("b", result.arguments().get(0));
-        assertEquals("c", result.arguments().get(1));
+    void testGetArgumentsFromRequestWithoutArguments(){
+        assertTrue(request1.arguments().isEmpty());
     }
+
+
+    Request request2 = creator.getRequest("a b c");
+    @Test
+    void testGetCommandFromRequestWithArguments(){
+        assertEquals("a", request2.command());
+    }
+
+    @Test
+    void testGetArgumentsFromRequestWithArguments(){
+        assertEquals("b", request2.arguments().get(0));
+        assertEquals("c", request2.arguments().get(1));
+    }
+
+
 }

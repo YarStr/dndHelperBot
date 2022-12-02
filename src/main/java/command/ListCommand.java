@@ -28,6 +28,7 @@ public class ListCommand implements Command {
         sectionName = arguments.get(0);
     }
 
+
     public String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         try {
             return Parser.getPagesListFromSection(sectionName);

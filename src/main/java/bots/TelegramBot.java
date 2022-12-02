@@ -2,6 +2,7 @@ package bots;
 
 import botLogic.CommandHandler;
 import botLogic.KeyboardCreator;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import request.Request;
 import request.RequestCreator;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -82,7 +83,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private SendMessage getOutputMessage(Message inputMessage, Request request) {
         SendMessage outputMessage = new SendMessage();
         outputMessage.setText(commandHandler.handleRequest(request));
-        outputMessage.setReplyMarkup(keyboardCreator.createKeyboard(request));
+        outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
         outputMessage.setChatId(inputMessage.getChatId().toString());
         return outputMessage;
     }
