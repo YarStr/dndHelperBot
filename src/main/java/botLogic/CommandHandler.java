@@ -5,6 +5,10 @@ import command.exceptions.FailedCommandExecutionException;
 import command.exceptions.InvalidCommandArgumentsException;
 import command.raceCommand.MoreRaceInfoCommand;
 import command.raceCommand.RaceInfoCommand;
+import messagePackage.Format;
+import messagePackage.FormattedText;
+import messagePackage.MessagePackage;
+import messagePackage.MessagePackageBuilder;
 import request.Request;
 import botLogic.state.BotState;
 
@@ -18,6 +22,7 @@ public class CommandHandler {
      * Поле состояние диалога бота
      */
     private BotState state = BotState.Main;
+    private ArrayList<String> availableCommands = state.getAvailableCommands();
 
     /**
      * Функция обработки запроса и вызова описанной в нём команды
@@ -25,20 +30,35 @@ public class CommandHandler {
      * @param request - запрос
      * @return возвращает результат вызванной команды
      */
-    public String handleRequest(Request request) {
-        ArrayList<String> availableCommands = state.getAvailableCommands();
-        String answer = "Введённая команда недоступна.";
+    public MessagePackage handleRequest(Request request) {
+        MessagePackageBuilder messagePackageBuilder = new MessagePackageBuilder();
+        FormattedText information = new FormattedText();
+
         if (availableCommands.contains(request.command())) {
             try {
-                answer = executeCommand(request);
+                MessagePackage messagePackage = executeCommand(request);
+                messagePackageBuilder.addInformation(messagePackage.information);
                 state = state.nextState(request);
             } catch (InvalidCommandArgumentsException e) {
-                return e.getMessage();
+                information.text = e.getMessage();
+                information.format = Format.ERROR;
             } catch (FailedCommandExecutionException e) {
-                return "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
+                information.text = "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
+                information.format = Format.ERROR;
             }
+        } else {
+            information.text = "Введённая команда недоступна.";
+            information.format = Format.NORMAL;
         }
-        return answer;
+
+        availableCommands = state.getAvailableCommands();
+
+        if (information.text != null)
+            messagePackageBuilder.addInformation(information);
+
+        return messagePackageBuilder
+                .addAvailableCommands(availableCommands)
+                .build();
     }
 
     /**
@@ -49,7 +69,7 @@ public class CommandHandler {
      * @throws InvalidCommandArgumentsException когда команда вызвана с неправильным набором аргументов
      * @throws FailedCommandExecutionException  когда не удалось выполнить команду по причинам, не зависящим от пользователя
      */
-    private String executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
+    private MessagePackage executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (request.command()) {
             case CommandList.START -> new StartCommand();
             case CommandList.HELP -> new HelpCommand();

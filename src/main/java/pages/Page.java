@@ -1,9 +1,12 @@
 package pages;
 
+import messagePackage.Format;
+import messagePackage.FormattedText;
+import messagePackage.MessagePackage;
+import messagePackage.MessagePackageBuilder;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -26,17 +29,17 @@ public class Page {
     /**
      * Ссылка на страницу
      */
-    private final String link;
+    private final FormattedText link;
 
     /**
      * Основная информация со страницы
      */
-    private final Map<String, String> mainFeatures;
+    private final Map<FormattedText, FormattedText> mainFeatures;
 
     /**
      * Конструктор класса страницы
      */
-    public Page(String link, Map<String, String> mainFeatures) {
+    public Page(FormattedText link, Map<FormattedText, FormattedText> mainFeatures) {
         this.link = link;
         this.mainFeatures = mainFeatures;
     }
@@ -46,7 +49,7 @@ public class Page {
      *
      * @return возвращает ссылку на страницу
      */
-    public String getLink() {
+    public FormattedText getLink() {
         return link;
     }
 
@@ -56,21 +59,14 @@ public class Page {
      * @param features список блоков
      * @return строка с информацией запрашиваемых блоков
      */
-    public String getFeatures(ArrayList<String> features) {
-        Set<String> chosenFeatures = new HashSet<>();
+    public MessagePackage getFeatures(ArrayList<String> features) {
+        ArrayList<FormattedText> chosenFeatures = new ArrayList<>();
         if (features.contains("all"))
-            chosenFeatures = mainFeatures.keySet();
+            chosenFeatures = (ArrayList<FormattedText>) mainFeatures.keySet();
         else
             for (String x : features)
-                chosenFeatures.add(FEATURES_NAMES_MATCH.get(x));
+                chosenFeatures.add(new FormattedText(FEATURES_NAMES_MATCH.get(x), Format.NORMAL));
 
-        StringBuilder answer = new StringBuilder();
-        for (String title : chosenFeatures) {
-            answer.append(title)
-                    .append(" ")
-                    .append(mainFeatures.get(title))
-                    .append("\n");
-        }
-        return String.valueOf(answer);
+        return new MessagePackageBuilder().addInformation(chosenFeatures).build();
     }
 }

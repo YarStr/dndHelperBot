@@ -1,12 +1,13 @@
 package pages;
 
+import messagePackage.Format;
+import messagePackage.FormattedText;
 import parser.exceptions.FailedConnectionException;
 import parser.exceptions.NonExistentSectionException;
 import command.exceptions.FailedCommandExecutionException;
 import command.exceptions.InvalidCommandArgumentsException;
 import parser.exceptions.NonExistentPageException;
 import parser.Parser;
-
 import java.util.Map;
 
 /**
@@ -32,7 +33,7 @@ public class PageBuilder {
     /**
      * Блоки с основной информацией страницы
      */
-    private Map<String, String> mainFeatures;
+    private Map<FormattedText, FormattedText> mainFeatures;
 
     /**
      * Конструктор класса
@@ -84,6 +85,6 @@ public class PageBuilder {
      * @return экземпляр класса с установленными билдером полями
      */
     public Page build() {
-        return new Page(link, mainFeatures);
+        return new Page(new FormattedText(link, Format.NORMAL), mainFeatures);
     }
 }

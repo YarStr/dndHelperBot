@@ -21,4 +21,10 @@ public class MessagePackage {
      * Дополнительные данные для вывода пользователю
      */
     public File additionalData;
+
+    public MessagePackage(ArrayList<FormattedText> information, ArrayList<String> availableCommands, File additionalData) {
+        this.information = information;
+        this.availableCommands = availableCommands;
+        this.additionalData = additionalData;
+    }
 }

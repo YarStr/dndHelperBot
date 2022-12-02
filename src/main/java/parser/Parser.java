@@ -1,5 +1,9 @@
 package parser;
 
+import messagePackage.FormattedText;
+import messagePackage.Format;
+import messagePackage.MessagePackage;
+import messagePackage.MessagePackageBuilder;
 import parser.exceptions.FailedConnectionException;
 import parser.exceptions.NonExistentSectionException;
 import org.jsoup.Jsoup;
@@ -9,6 +13,7 @@ import org.jsoup.select.Elements;
 import parser.exceptions.NonExistentPageException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +22,11 @@ import java.util.Map;
  */
 public class Parser {
     /**
-     * Функция получения всех доступных страниц секции сайта
+     * Метод получения секции сайта dnd.su
      *
-     * @return сообщение - список страниц
-     * @throws NonExistentSectionException при попытке подключиться к недоступной боту секции сайта dnd.su
+     * @param sectionName - имя секции
+     * @return секцию сайта
+     * @throws NonExistentSectionException если не существует запрашиваемой секции
      * @throws FailedConnectionException   когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
      */
     private static Document getSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
@@ -42,18 +48,20 @@ public class Parser {
      * Метод получения списка доступных страниц из секции сайта dnd.su
      *
      * @param sectionName название секции сайта
-     * @return строка, содержащая все доступные в секции страницы
+     * @return пакет сообщения с доступными из секции страницами
      * @throws NonExistentSectionException при попытке подключиться к недоступной боту секции сайта dnd.su
      * @throws FailedConnectionException   когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
      */
-    public static String getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
+    public static MessagePackage getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
         Document section = getSection(sectionName);
         Elements raceList = section.select("span[class=\"article_title\"]");
-        StringBuilder pagesList = new StringBuilder();
-        for (Element raceListElement : raceList) {
-            pagesList.append(raceListElement.text()).append("\n");
-        }
-        return pagesList.toString();
+
+        ArrayList<FormattedText> formattedRaceList = new ArrayList<>();
+        formattedRaceList.add(new FormattedText("Список всех доступных рас:", Format.TITLE));
+        for (Element raceListElement : raceList)
+            formattedRaceList.add(new FormattedText(raceListElement.text(), Format.NORMAL));
+
+        return new MessagePackageBuilder().addInformation(formattedRaceList).build();
     }
 
     /**
@@ -84,21 +92,34 @@ public class Parser {
      * @return основную информацию, разбитую на блоки
      * @throws FailedConnectionException когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
      */
-    public static Map<String, String> getRaceFeatures(String link) throws FailedConnectionException {
+    public static Map<FormattedText, FormattedText> getRaceFeatures(String link) throws FailedConnectionException {
         Document section;
         try {
             section = Jsoup.connect("https://dnd.su" + link).get();
         } catch (IOException e) {
             throw new FailedConnectionException();
         }
+
         Elements featureElements = section.select("h3:has(span[id^=\"osobennosti\"]) ~ p:has(strong)");
-        Map<String, String> featureElementsMap = new HashMap<>();
+        Map<FormattedText, FormattedText> featureElementsMap = new HashMap<>();
+
         for (Element element : featureElements) {
-            String title = element.select("strong").text();
-            if (title.equals("Мировоззрение"))
-                featureElementsMap.put("Мировоззрение.", element.select("span").text());
-            else
-                featureElementsMap.put(title, element.ownText());
+            String titleString = element.select("strong").text();
+
+            FormattedText title = new FormattedText();
+            title.format = Format.TITLE;
+            FormattedText feature = new FormattedText();
+            feature.format = Format.NORMAL;
+
+            if (titleString.equals("Мировоззрение")) {
+                title.text = "Мировоззрение.";
+                feature.text = element.select("span").text();
+            } else {
+                title.text = titleString;
+                feature.text = element.ownText();
+            }
+
+            featureElementsMap.put(title, feature);
         }
         return featureElementsMap;
     }

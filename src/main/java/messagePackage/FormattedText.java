@@ -12,5 +12,23 @@ public class FormattedText {
     /**
      * Стиль оформления текста
      */
-    public FormattingStyle formattingStyle;
+    public Format format;
+
+    /**
+     * Конструктор
+     * @param text текст
+     * @param format стиль оформления текста
+     */
+    public FormattedText(String text, Format format){
+        this.text = text;
+        this.format = format;
+    }
+
+    /**
+     * Конструктор
+     */
+    public FormattedText() {
+        text = null;
+        format = null;
+    }
 }

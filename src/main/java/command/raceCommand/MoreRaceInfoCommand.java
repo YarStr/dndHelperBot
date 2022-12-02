@@ -2,6 +2,10 @@ package command.raceCommand;
 
 import command.Command;
 import command.exceptions.InvalidCommandArgumentsException;
+import messagePackage.Format;
+import messagePackage.FormattedText;
+import messagePackage.MessagePackage;
+import messagePackage.MessagePackageBuilder;
 
 import java.util.ArrayList;
 
@@ -29,9 +33,14 @@ public class MoreRaceInfoCommand extends RaceCommand implements Command {
     }
 
     @Override
-    public String getResult() {
-        if (arguments.contains("link"))
-            return "Ссылка на страницу расы: https://dnd.su" + race.getLink();
+    public MessagePackage getResult() {
+        if (arguments.contains("link")) {
+            FormattedText title = new FormattedText("Ссылка на страницу расы:", Format.TITLE);
+            return new MessagePackageBuilder()
+                    .addInformation(title)
+                    .addInformation(race.getLink())
+                    .build();
+        }
         return race.getFeatures(arguments);
     }
 }

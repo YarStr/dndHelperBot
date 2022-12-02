@@ -1,5 +1,6 @@
 package command;
 
+import messagePackage.MessagePackage;
 import parser.exceptions.FailedConnectionException;
 import parser.exceptions.NonExistentSectionException;
 import command.exceptions.FailedCommandExecutionException;
@@ -28,7 +29,7 @@ public class ListCommand implements Command {
         sectionName = arguments.get(0);
     }
 
-    public String getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException {
+    public MessagePackage getResult() throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         try {
             return Parser.getPagesListFromSection(sectionName);
         } catch (NonExistentSectionException e) {
