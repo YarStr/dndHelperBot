@@ -14,8 +14,8 @@ public class ConsoleOutput implements OutputModule {
      */
     public void sendData(MessagePackage messagePackage) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (FormattedText formattedText: messagePackage.information) {
-            switch (formattedText.format){
+        for (FormattedText formattedText : messagePackage.information) {
+            switch (formattedText.format) {
                 case ERROR -> stringBuilder.append("!!!").append(formattedText.text);
                 case TITLE -> stringBuilder.append("---").append(formattedText.text).append("---");
                 case NORMAL -> stringBuilder.append(formattedText.text);

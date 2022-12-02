@@ -2,6 +2,7 @@ package messagePackage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Билдер класса MessagePackage
@@ -49,6 +50,18 @@ public class MessagePackageBuilder {
      * @return себя
      */
     public MessagePackageBuilder addInformation(ArrayList<FormattedText> formattedTextList) {
+        if (information == null)
+            information = new ArrayList<>();
+        information.addAll(formattedTextList);
+        return this;
+    }
+
+    /**
+     * Метод заполнения поля information
+     * @param formattedTextList список блоков информации
+     * @return себя
+     */
+    public MessagePackageBuilder addInformation(HashSet<FormattedText> formattedTextList) {
         if (information == null)
             information = new ArrayList<>();
         information.addAll(formattedTextList);

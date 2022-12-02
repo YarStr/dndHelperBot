@@ -85,6 +85,6 @@ public class PageBuilder {
      * @return экземпляр класса с установленными билдером полями
      */
     public Page build() {
-        return new Page(new FormattedText(link, Format.NORMAL), mainFeatures);
+        return new Page(new FormattedText("https://dnd.su" + link, Format.NORMAL), mainFeatures);
     }
 }

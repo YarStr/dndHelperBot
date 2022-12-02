@@ -1,6 +1,5 @@
 package pages;
 
-import messagePackage.Format;
 import messagePackage.FormattedText;
 import messagePackage.MessagePackage;
 import messagePackage.MessagePackageBuilder;
@@ -18,12 +17,12 @@ public class Page {
      * Таблица сопоставления блоков основной информации и их названий
      */
     private final Map<String, String> FEATURES_NAMES_MATCH = Map.of(
-            "score", "Увеличение характеристик.",
-            "age", "Возраст.",
-            "alignment", "Мировоззрение.",
-            "size", "Размер.",
-            "speed", "Скорость.",
-            "languages", "Языки."
+            "Увеличение характеристик.", "score",
+            "Возраст.", "age",
+            "Мировоззрение.", "alignment",
+            "Размер.", "size",
+            "Скорость.", "speed",
+            "Языки.", "languages"
     );
 
     /**
@@ -61,12 +60,20 @@ public class Page {
      */
     public MessagePackage getFeatures(ArrayList<String> features) {
         ArrayList<FormattedText> chosenFeatures = new ArrayList<>();
-        if (features.contains("all"))
-            chosenFeatures = (ArrayList<FormattedText>) mainFeatures.keySet();
-        else
-            for (String x : features)
-                chosenFeatures.add(new FormattedText(FEATURES_NAMES_MATCH.get(x), Format.NORMAL));
+        if (features.contains("all")) {
+            chosenFeatures = new ArrayList<>(mainFeatures.keySet());
+        } else {
+            for (FormattedText key : mainFeatures.keySet()) {
+                if (features.contains(FEATURES_NAMES_MATCH.get(key.text)))
+                    chosenFeatures.add(key);
+            }
+        }
 
-        return new MessagePackageBuilder().addInformation(chosenFeatures).build();
+        MessagePackageBuilder messagePackageBuilder = new MessagePackageBuilder();
+        for (FormattedText title : chosenFeatures) {
+            messagePackageBuilder.addInformation(title).addInformation(mainFeatures.get(title));
+        }
+
+        return messagePackageBuilder.build();
     }
 }
