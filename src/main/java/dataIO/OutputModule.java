@@ -1,5 +1,7 @@
 package dataIO;
 
+import messagePackage.MessagePackage;
+
 /**
  * Интерфейс модуля, выводящего информацию пользователю
  */
@@ -9,5 +11,5 @@ public interface OutputModule {
      *
      * @param data - текстовая информация
      */
-    void sendData(String data);
+    void sendData(MessagePackage data);
 }

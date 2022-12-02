@@ -53,6 +53,7 @@ public class CommandHandler {
 
         availableCommands = state.getAvailableCommands();
 
+
         if (information.text != null)
             messagePackageBuilder.addInformation(information);
 
