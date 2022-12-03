@@ -1,7 +1,7 @@
 package dataIO;
 
-import messagePackage.FormattedText;
-import messagePackage.MessagePackage;
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
 
 /**
  * Класс, реализующий вывод сообщений в консоль
@@ -10,12 +10,12 @@ public class ConsoleOutput implements OutputModule {
     /**
      * Функция отправки сообщения в консоль
      *
-     * @param messagePackage - пакет сообщения
+     * @param packedMessage - пакет сообщения
      */
-    public void sendData(MessagePackage messagePackage) {
+    public void sendData(PackedMessage packedMessage) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (FormattedText formattedText : messagePackage.information) {
-            switch (formattedText.format) {
+        for (FormattedText formattedText: packedMessage.information) {
+            switch (formattedText.format){
                 case ERROR -> stringBuilder.append("!!!").append(formattedText.text);
                 case TITLE -> stringBuilder.append("---").append(formattedText.text).append("---");
                 case NORMAL -> stringBuilder.append(formattedText.text);

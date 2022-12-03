@@ -1,7 +1,7 @@
 package pages;
 
-import messagePackage.Format;
-import messagePackage.FormattedText;
+import packedMessage.Format;
+import packedMessage.FormattedText;
 import parser.exceptions.FailedConnectionException;
 import parser.exceptions.NonExistentSectionException;
 import command.exceptions.FailedCommandExecutionException;

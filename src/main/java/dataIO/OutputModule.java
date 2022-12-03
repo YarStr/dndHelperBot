@@ -1,6 +1,6 @@
 package dataIO;
 
-import messagePackage.MessagePackage;
+import packedMessage.PackedMessage;
 
 /**
  * Интерфейс модуля, выводящего информацию пользователю
@@ -11,5 +11,5 @@ public interface OutputModule {
      *
      * @param data - текстовая информация
      */
-    void sendData(MessagePackage data);
+    void sendData(PackedMessage data);
 }

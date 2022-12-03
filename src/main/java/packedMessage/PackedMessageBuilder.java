@@ -1,4 +1,6 @@
-package messagePackage;
+package packedMessage;
+
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.HashSet;
 /**
  * Билдер класса MessagePackage
  */
-public class MessagePackageBuilder {
+public class PackedMessageBuilder {
     /**
      * Информация - ответ на команду бота
      */
@@ -21,12 +23,12 @@ public class MessagePackageBuilder {
     /**
      * Дополнительные данные для вывода пользователю
      */
-    private File additionalData;
+    private InputFile additionalData;
 
     /**
      * Конструктор
      */
-    public MessagePackageBuilder() {
+    public PackedMessageBuilder() {
         information = null;
         availableCommands = null;
         additionalData = null;
@@ -37,7 +39,7 @@ public class MessagePackageBuilder {
      * @param formattedText блок информации в одном экземпляре
      * @return себя
      */
-    public MessagePackageBuilder addInformation(FormattedText formattedText) {
+    public PackedMessageBuilder addInformation(FormattedText formattedText) {
         if (information == null)
             information = new ArrayList<>();
         information.add(formattedText);
@@ -49,7 +51,7 @@ public class MessagePackageBuilder {
      * @param formattedTextList список блоков информации
      * @return себя
      */
-    public MessagePackageBuilder addInformation(ArrayList<FormattedText> formattedTextList) {
+    public PackedMessageBuilder addInformation(ArrayList<FormattedText> formattedTextList) {
         if (information == null)
             information = new ArrayList<>();
         information.addAll(formattedTextList);
@@ -61,7 +63,7 @@ public class MessagePackageBuilder {
      * @param formattedTextList список блоков информации
      * @return себя
      */
-    public MessagePackageBuilder addInformation(HashSet<FormattedText> formattedTextList) {
+    public PackedMessageBuilder addInformation(HashSet<FormattedText> formattedTextList) {
         if (information == null)
             information = new ArrayList<>();
         information.addAll(formattedTextList);
@@ -73,7 +75,7 @@ public class MessagePackageBuilder {
      * @param availableCommands список доступных команд
      * @return себя
      */
-    public MessagePackageBuilder addAvailableCommands(ArrayList<String> availableCommands) {
+    public PackedMessageBuilder addAvailableCommands(ArrayList<String> availableCommands) {
         this.availableCommands = availableCommands;
         return this;
     }
@@ -83,7 +85,7 @@ public class MessagePackageBuilder {
      * @param additionalData файл дополнительных данных
      * @return себя
      */
-    public MessagePackageBuilder addAdditionalData(File additionalData) {
+    public PackedMessageBuilder addAdditionalData(InputFile additionalData) {
         this.additionalData = additionalData;
         return this;
     }
@@ -92,7 +94,7 @@ public class MessagePackageBuilder {
      * Метод построения класса MessagePackage
      * @return экземпляр MessagePackage
      */
-    public MessagePackage build() {
-        return new MessagePackage(information, availableCommands, additionalData);
+    public PackedMessage build() {
+        return new PackedMessage(information, availableCommands, additionalData);
     }
 }

@@ -1,4 +1,4 @@
-package messagePackage;
+package packedMessage;
 
 /**
  * Тип данных, хранящий текст и стиль его оформления

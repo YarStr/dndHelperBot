@@ -1,9 +1,9 @@
 package command;
 
-import messagePackage.Format;
-import messagePackage.FormattedText;
-import messagePackage.MessagePackage;
-import messagePackage.MessagePackageBuilder;
+import packedMessage.Format;
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
 
 /**
  * Класс команды вывода help
@@ -20,9 +20,9 @@ public class HelpCommand implements Command {
             /race raceName - узнать основную информацию о расе
             """;
 
-    public MessagePackage getResult() {
+    public PackedMessage getResult() {
         FormattedText text = new FormattedText(COMMAND_MESSAGE, Format.NORMAL);
-        return new MessagePackageBuilder()
+        return new PackedMessageBuilder()
                 .addInformation(text)
                 .build();
     }

@@ -1,8 +1,8 @@
 package pages;
 
-import messagePackage.FormattedText;
-import messagePackage.MessagePackage;
-import messagePackage.MessagePackageBuilder;
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class Page {
      * @param features список блоков
      * @return строка с информацией запрашиваемых блоков
      */
-    public MessagePackage getFeatures(ArrayList<String> features) {
+    public PackedMessage getFeatures(ArrayList<String> features) {
         ArrayList<FormattedText> chosenFeatures = new ArrayList<>();
         if (features.contains("all")) {
             chosenFeatures = new ArrayList<>(mainFeatures.keySet());
@@ -69,7 +69,7 @@ public class Page {
             }
         }
 
-        MessagePackageBuilder messagePackageBuilder = new MessagePackageBuilder();
+        PackedMessageBuilder messagePackageBuilder = new PackedMessageBuilder();
         for (FormattedText title : chosenFeatures) {
             messagePackageBuilder.addInformation(title).addInformation(mainFeatures.get(title));
         }

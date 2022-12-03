@@ -1,12 +1,12 @@
 package bots;
 
 import botLogic.CommandHandler;
-import botLogic.KeyboardCreator;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+
+import dataIO.TelegramOutputBuilder;
+import dataIO.TelegramOutputMessage;
 import request.Request;
 import request.RequestCreator;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -44,7 +44,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     /**
      * Поле создателя клавиатуры
      */
-    private final KeyboardCreator keyboardCreator;
+    private final TelegramOutputBuilder telegramOutputBuilder;
 
     /**
      * Конструктор - создание нового объекта
@@ -52,7 +52,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public TelegramBot() {
         this.requestCreator = new RequestCreator();
         this.commandHandler = new CommandHandler();
-        this.keyboardCreator = new KeyboardCreator();
+        this.telegramOutputBuilder = new TelegramOutputBuilder();
     }
 
     /**
@@ -67,24 +67,39 @@ public class TelegramBot extends TelegramLongPollingBot {
                 Message inputMessage = update.getMessage();
                 Request request = requestCreator.getRequest(inputMessage.getText());
 
-                execute(getOutputMessage(inputMessage, request));
+                TelegramOutputMessage telegramOutputMessage = telegramOutputBuilder.getSendMessage(commandHandler.handleRequest(request), inputMessage.getChatId());
+                execute(telegramOutputMessage.sendMessage);
+                execute(telegramOutputMessage.sendPhoto);
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
+}
 
-    /**
-     * Метод, формирующий ответное сообщение
-     *
-     * @param inputMessage входящее сообщение
+     /*
+      Метод, формирующий ответное сообщение
+
+      @param inputMessage входящее сообщение
      * @param request      запрос от пользователя
      */
-    private SendMessage getOutputMessage(Message inputMessage, Request request) {
-        SendMessage outputMessage = new SendMessage();
-        outputMessage.setText(commandHandler.handleRequest(request));
-        outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
-        outputMessage.setChatId(inputMessage.getChatId().toString());
-        return outputMessage;
-    }
-}
+//    private SendMessage getOutputMessage(Message inputMessage, Request request) {
+//        SendMessage outputMessage = new SendMessage();
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (FormattedText formattedText: commandHandler.handleRequest(request).information) {
+//            switch (formattedText.format){
+//                case ERROR -> stringBuilder.append("<u>").append(formattedText.text).append("</u>");
+//                case TITLE -> stringBuilder.append("<b>").append(formattedText.text).append("</b>");
+//                case NORMAL -> stringBuilder.append("<i>").append(formattedText.text).append("</i>");
+//            }
+//            stringBuilder.append('\n');
+//        }
+//
+//        outputMessage.setParseMode(ParseMode.HTML);
+//        outputMessage.setText(stringBuilder.toString());
+//        outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
+//        outputMessage.setChatId(inputMessage.getChatId().toString());
+//        return outputMessage;
+//    }
+//}

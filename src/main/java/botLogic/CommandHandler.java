@@ -5,10 +5,10 @@ import command.exceptions.FailedCommandExecutionException;
 import command.exceptions.InvalidCommandArgumentsException;
 import command.raceCommand.MoreRaceInfoCommand;
 import command.raceCommand.RaceInfoCommand;
-import messagePackage.Format;
-import messagePackage.FormattedText;
-import messagePackage.MessagePackage;
-import messagePackage.MessagePackageBuilder;
+import packedMessage.Format;
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
 import request.Request;
 import botLogic.state.BotState;
 
@@ -30,13 +30,13 @@ public class CommandHandler {
      * @param request - запрос
      * @return возвращает результат вызванной команды
      */
-    public MessagePackage handleRequest(Request request) {
-        MessagePackageBuilder messagePackageBuilder = new MessagePackageBuilder();
+    public PackedMessage handleRequest(Request request) {
+        PackedMessageBuilder messagePackageBuilder = new PackedMessageBuilder();
         FormattedText information = new FormattedText();
 
         if (availableCommands.contains(request.command())) {
             try {
-                MessagePackage messagePackage = executeCommand(request);
+                PackedMessage messagePackage = executeCommand(request);
                 messagePackageBuilder.addInformation(messagePackage.information);
                 state = state.nextState(request);
             } catch (InvalidCommandArgumentsException e) {
@@ -70,7 +70,7 @@ public class CommandHandler {
      * @throws InvalidCommandArgumentsException когда команда вызвана с неправильным набором аргументов
      * @throws FailedCommandExecutionException  когда не удалось выполнить команду по причинам, не зависящим от пользователя
      */
-    private MessagePackage executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
+    private PackedMessage executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (request.command()) {
             case CommandList.START -> new StartCommand();
             case CommandList.HELP -> new HelpCommand();

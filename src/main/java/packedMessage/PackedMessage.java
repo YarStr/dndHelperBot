@@ -1,4 +1,7 @@
-package messagePackage;
+package packedMessage;
+
+import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Тип данных, хранящий ответ на команду бота и его служебную информацию
  */
-public class MessagePackage {
+public class PackedMessage {
     /**
      * Информация - ответ на команду бота
      */
@@ -20,9 +23,10 @@ public class MessagePackage {
     /**
      * Дополнительные данные для вывода пользователю
      */
-    public File additionalData;
+    public InputFile additionalData;
 
-    public MessagePackage(ArrayList<FormattedText> information, ArrayList<String> availableCommands, File additionalData) {
+
+    public PackedMessage(ArrayList<FormattedText> information, ArrayList<String> availableCommands, InputFile additionalData) {
         this.information = information;
         this.availableCommands = availableCommands;
         this.additionalData = additionalData;

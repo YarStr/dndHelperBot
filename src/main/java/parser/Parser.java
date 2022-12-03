@@ -1,9 +1,10 @@
 package parser;
 
-import messagePackage.FormattedText;
-import messagePackage.Format;
-import messagePackage.MessagePackage;
-import messagePackage.MessagePackageBuilder;
+import org.telegram.telegrambots.meta.api.objects.File;
+import packedMessage.FormattedText;
+import packedMessage.Format;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
 import parser.exceptions.FailedConnectionException;
 import parser.exceptions.NonExistentSectionException;
 import org.jsoup.Jsoup;
@@ -13,6 +14,10 @@ import org.jsoup.select.Elements;
 import parser.exceptions.NonExistentPageException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,16 +57,16 @@ public class Parser {
      * @throws NonExistentSectionException при попытке подключиться к недоступной боту секции сайта dnd.su
      * @throws FailedConnectionException   когда не получилось подключиться к сайту по причинам, не зависящим от пользователя
      */
-    public static MessagePackage getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
+    public static PackedMessage getPagesListFromSection(String sectionName) throws NonExistentSectionException, FailedConnectionException {
         Document section = getSection(sectionName);
         Elements raceList = section.select("span[class=\"article_title\"]");
 
         ArrayList<FormattedText> formattedRaceList = new ArrayList<>();
-        formattedRaceList.add(new FormattedText("Список всех доступных рас:", Format.TITLE));
+        formattedRaceList.add(new FormattedText("Список всех доступных рас", Format.TITLE));
         for (Element raceListElement : raceList)
             formattedRaceList.add(new FormattedText(raceListElement.text(), Format.NORMAL));
 
-        return new MessagePackageBuilder().addInformation(formattedRaceList).build();
+        return new PackedMessageBuilder().addInformation(formattedRaceList).build();
     }
 
     /**
@@ -123,4 +128,5 @@ public class Parser {
         }
         return featureElementsMap;
     }
+
 }

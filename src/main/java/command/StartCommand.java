@@ -1,9 +1,9 @@
 package command;
 
-import messagePackage.Format;
-import messagePackage.FormattedText;
-import messagePackage.MessagePackage;
-import messagePackage.MessagePackageBuilder;
+import packedMessage.Format;
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
 
 public class StartCommand implements Command {
 
@@ -13,9 +13,9 @@ public class StartCommand implements Command {
             Для вывода доступных команд введите /help""";
 
     @Override
-    public MessagePackage getResult() {
+    public PackedMessage getResult() {
         FormattedText text = new FormattedText(COMMAND_MESSAGE, Format.NORMAL);
-        return new MessagePackageBuilder()
+        return new PackedMessageBuilder()
                 .addInformation(text)
                 .build();
     }

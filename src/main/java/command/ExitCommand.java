@@ -1,18 +1,18 @@
 package command;
 
-import messagePackage.Format;
-import messagePackage.FormattedText;
-import messagePackage.MessagePackage;
-import messagePackage.MessagePackageBuilder;
+import packedMessage.Format;
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
 
 /**
  * Класс команды выхода из текущей ветки диалога бота
  */
 public class ExitCommand implements Command {
     @Override
-    public MessagePackage getResult() {
+    public PackedMessage getResult() {
         FormattedText text = new FormattedText("Что хочешь ещё узнать? :)", Format.NORMAL);
-        return new MessagePackageBuilder()
+        return new PackedMessageBuilder()
                 .addInformation(text)
                 .build();
     }

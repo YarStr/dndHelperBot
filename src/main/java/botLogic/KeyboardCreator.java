@@ -20,7 +20,7 @@ public class KeyboardCreator {
      * @return макет для создания клавиатуры
      */
 
-    public ReplyKeyboardMarkup createKeyboard() {
+    public ReplyKeyboardMarkup createKeyboard(ArrayList<String> availableCommands) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
@@ -28,17 +28,22 @@ public class KeyboardCreator {
 
         //Создаем нужное количество строк
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
 
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("/list class"));
-        keyboardFirstRow.add(new KeyboardButton("/list race"));
-        keyboardSecondRow.add(new KeyboardButton("/help"));
+        for (String command: availableCommands) {
+            if (!command.equals("race") && !command.equals("info") && !command.equals("start")){
+                if (command.equals("list")){
+                    keyboardFirstRow.add(new KeyboardButton("/" + command + " race"));
+                    keyboardFirstRow.add(new KeyboardButton("/" + command + " class"));
+                    continue;
+                }
+                keyboardFirstRow.add(new KeyboardButton("/" + command));
+            }
+        }
 
         // Добавляем все строчки клавиатуры в список
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
 
         // и устанавливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);

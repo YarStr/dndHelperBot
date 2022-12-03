@@ -1,4 +1,4 @@
-package messagePackage;
+package packedMessage;
 
 /**
  * Перечисление всех стилей оформления текста
