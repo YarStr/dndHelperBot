@@ -42,7 +42,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final CommandHandler commandHandler;
 
     /**
-     * Поле создателя клавиатуры
+     * Поле создателя форматированного вывода
      */
     private final TelegramOutputBuilder telegramOutputBuilder;
 
@@ -69,37 +69,10 @@ public class TelegramBot extends TelegramLongPollingBot {
 
                 TelegramOutputMessage telegramOutputMessage = telegramOutputBuilder.getSendMessage(commandHandler.handleRequest(request), inputMessage.getChatId());
                 execute(telegramOutputMessage.sendMessage);
-                execute(telegramOutputMessage.sendPhoto);
+//                execute(telegramOutputMessage.sendPhoto);
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 }
-
-     /*
-      Метод, формирующий ответное сообщение
-
-      @param inputMessage входящее сообщение
-     * @param request      запрос от пользователя
-     */
-//    private SendMessage getOutputMessage(Message inputMessage, Request request) {
-//        SendMessage outputMessage = new SendMessage();
-//
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (FormattedText formattedText: commandHandler.handleRequest(request).information) {
-//            switch (formattedText.format){
-//                case ERROR -> stringBuilder.append("<u>").append(formattedText.text).append("</u>");
-//                case TITLE -> stringBuilder.append("<b>").append(formattedText.text).append("</b>");
-//                case NORMAL -> stringBuilder.append("<i>").append(formattedText.text).append("</i>");
-//            }
-//            stringBuilder.append('\n');
-//        }
-//
-//        outputMessage.setParseMode(ParseMode.HTML);
-//        outputMessage.setText(stringBuilder.toString());
-//        outputMessage.setReplyMarkup(keyboardCreator.createKeyboard());
-//        outputMessage.setChatId(inputMessage.getChatId().toString());
-//        return outputMessage;
-//    }
-//}

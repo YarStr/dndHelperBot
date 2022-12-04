@@ -17,6 +17,7 @@ public class KeyboardCreator {
     /**
      * Создание клавиатуры
      *
+     * @param availableCommands список возможных команд
      * @return макет для создания клавиатуры
      */
 
@@ -30,14 +31,14 @@ public class KeyboardCreator {
         KeyboardRow keyboardFirstRow = new KeyboardRow();
 
         // Добавляем кнопки в первую строчку клавиатуры
-        for (String command: availableCommands) {
-            if (!command.equals("race") && !command.equals("info") && !command.equals("start")){
-                if (command.equals("list")){
-                    keyboardFirstRow.add(new KeyboardButton("/" + command + " race"));
-                    keyboardFirstRow.add(new KeyboardButton("/" + command + " class"));
+        for (String command : availableCommands) {
+            if (!command.equals("race") && !command.equals("info") && !command.equals("start")) {
+                if (command.equals("list")) {
+                    keyboardFirstRow.add(new KeyboardButton(command + " race"));
+                    keyboardFirstRow.add(new KeyboardButton(command + " class"));
                     continue;
                 }
-                keyboardFirstRow.add(new KeyboardButton("/" + command));
+                keyboardFirstRow.add(new KeyboardButton(command));
             }
         }
 

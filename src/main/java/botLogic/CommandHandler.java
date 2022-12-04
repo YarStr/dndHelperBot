@@ -22,6 +22,9 @@ public class CommandHandler {
      * Поле состояние диалога бота
      */
     private BotState state = BotState.Main;
+    /**
+     * Поле со списком возможных команд для данного состояния
+     */
     private ArrayList<String> availableCommands = state.getAvailableCommands();
 
     /**

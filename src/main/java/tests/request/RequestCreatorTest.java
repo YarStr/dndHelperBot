@@ -14,24 +14,25 @@ public class RequestCreatorTest {
     Request request1 = creator.getRequest("help");
 
     @Test
-    void testGetCommandFromRequestWithoutArguments(){
+    void testGetCommandFromRequestWithoutArguments() {
         assertEquals("help", request1.command());
     }
 
     @Test
-    void testGetArgumentsFromRequestWithoutArguments(){
+    void testGetArgumentsFromRequestWithoutArguments() {
         assertTrue(request1.arguments().isEmpty());
     }
 
 
     Request request2 = creator.getRequest("a b c");
+
     @Test
-    void testGetCommandFromRequestWithArguments(){
+    void testGetCommandFromRequestWithArguments() {
         assertEquals("a", request2.command());
     }
 
     @Test
-    void testGetArgumentsFromRequestWithArguments(){
+    void testGetArgumentsFromRequestWithArguments() {
         assertEquals("b", request2.arguments().get(0));
         assertEquals("c", request2.arguments().get(1));
     }

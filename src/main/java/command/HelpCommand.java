@@ -13,11 +13,15 @@ public class HelpCommand implements Command {
     private final String COMMAND_MESSAGE = """
             Список доступных команд:
             ------------------------
-            /help - узнать умения бота
+            help - узнать умения бота
                         
-            /list [race | class] - получить список всех доступных рас/классов
+            list [race | class] - получить список всех доступных рас/классов
                         
-            /race raceName - узнать основную информацию о расе
+            race raceName - узнать основную информацию о расе
+            
+            info [link | score | age | alignment | size | speed | languages | all ] - узнать конкретную информацию о расе (ВОЗМОЖНО ТОЛЬКО ПОСЛЕ КОМАНДЫ race)
+            
+            exit - закончить поиск в команде INFO
             """;
 
     public PackedMessage getResult() {
