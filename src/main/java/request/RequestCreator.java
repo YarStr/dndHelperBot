@@ -1,28 +1,21 @@
 package request;
 
-import dataIO.InputModule;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * Реализация конструктора Request
+ * Класс для обработки входных данных и преобразования их в запрос
  */
-public record RequestCreator(InputModule inputModule) {
-
+public record RequestCreator() {
     /**
-     * Функция, получающая аргументы для конструктора
+     * Функция, реализующая перевод входной строки в запрос
      *
-     * @return создание нового Request
+     * @return обработанное сообщение
      */
-    public Request getRequest() {
-        String message = inputModule.getMessage();
-        String[] parsedMessage = message.split(" ");
-        if (parsedMessage.length > 1) {
-            String command = parsedMessage[0];
-            String argument = parsedMessage[1];
-            return new Request(command, argument);
-        } else if (parsedMessage.length == 1) {
-            return new Request(message, null);
-        } else {
-            return null;
-        }
+    public Request getRequest(String text) {
+        ArrayList<String> parsedMessage = new ArrayList<>(Arrays.asList(text.split(" ")));
+        String command = parsedMessage.get(0).toLowerCase().replace("/", "");
+        parsedMessage.remove(0);
+        return new Request(command, parsedMessage);
     }
 }

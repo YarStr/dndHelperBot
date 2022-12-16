@@ -1,7 +1,9 @@
 package request;
 
+import java.util.ArrayList;
+
 /**
- * Конструктор, хранящий в себе информацию о поступившем сообщении
+ * Запись, хранящая в себе информацию о поступившем запросе пользователя
  */
-public record Request(String command, String argument) {
+public record Request(String command, ArrayList<String> arguments) {
 }
