@@ -3,6 +3,7 @@ package command.raceCommand;
 import command.Command;
 import command.exceptions.FailedCommandExecutionException;
 import command.exceptions.InvalidCommandArgumentsException;
+import packedMessage.PackedMessage;
 import pages.PageBuilder;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class RaceInfoCommand extends RaceCommand implements Command {
     }
 
     @Override
-    public String getResult() {
+    public PackedMessage getResult() {
         return race.getFeatures(arguments);
     }
 }

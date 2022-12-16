@@ -2,6 +2,8 @@ package tests.botLogic;
 
 import botLogic.CommandHandler;
 import org.junit.jupiter.api.Test;
+import packedMessage.Format;
+import packedMessage.PackedMessage;
 import request.Request;
 import request.RequestCreator;
 
@@ -29,8 +31,9 @@ class CommandHandlerTest {
     @Test
     public void testHandleRequestWithNonExistCommand() {
         request = requestCreator.getRequest("/nonExistCommand");
-        String currentMessage = commandHandler.handleRequest(request);
-        assertEquals("Введённая команда недоступна.", currentMessage);
+        PackedMessage currentMessage = commandHandler.handleRequest(request);
+        assertEquals("Введённая команда недоступна.", currentMessage.information.get(0).text);
+        assertEquals(Format.NORMAL, currentMessage.information.get(0).format);
     }
 
     @Test
@@ -38,33 +41,37 @@ class CommandHandlerTest {
         String[] textsWithRequests = {"/race", "/list"};
         for (String text : textsWithRequests) {
             request = requestCreator.getRequest(text);
-            String currentMessage = commandHandler.handleRequest(request);
+            PackedMessage currentMessage = commandHandler.handleRequest(request);
             String expectedMessage = invalidCommandArgumentsMessage + " " + emptyCommandArgumentsMessage;
-            assertEquals(expectedMessage, currentMessage);
+            assertEquals(expectedMessage, currentMessage.information.get(0).text);
+            assertEquals(Format.ERROR, currentMessage.information.get(0).format);
         }
     }
 
     @Test
     public void testHandleRequestWithNotExistentPageArgument() {
         request = requestCreator.getRequest("/race notExistentPage");
-        String currentMessage = commandHandler.handleRequest(request);
+        PackedMessage currentMessage = commandHandler.handleRequest(request);
         String expectedMessage = invalidCommandArgumentsMessage + " " + notExistentPageMessage;
-        assertEquals(expectedMessage, currentMessage);
+        assertEquals(expectedMessage, currentMessage.information.get(0).text);
+        assertEquals(Format.ERROR, currentMessage.information.get(0).format);
     }
 
     @Test
     public void testHandleRequestWithNotExistentSectionArgument() {
         request = requestCreator.getRequest("/list notExistentSection");
-        String currentMessage = commandHandler.handleRequest(request);
+        PackedMessage currentMessage = commandHandler.handleRequest(request);
         String expectedMessage = invalidCommandArgumentsMessage + " " + notExistentSectionMessage;
-        assertEquals(expectedMessage, currentMessage);
+        assertEquals(expectedMessage, currentMessage.information.get(0).text);
+        assertEquals(Format.ERROR, currentMessage.information.get(0).format);
     }
 
     @Test
     public void testHandleRequestWithNotExistentRaceFeature() {
         request = requestCreator.getRequest("/race гном notExistentRaceFeature");
-        String currentMessage = commandHandler.handleRequest(request);
+        PackedMessage currentMessage = commandHandler.handleRequest(request);
         String expectedMessage = invalidCommandArgumentsMessage + " " + notExistentRaceFeatureMessage;
-        assertEquals(expectedMessage, currentMessage);
+        assertEquals(expectedMessage, currentMessage.information.get(0).text);
+        assertEquals(Format.ERROR, currentMessage.information.get(0).format);
     }
 }

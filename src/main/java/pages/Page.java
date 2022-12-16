@@ -1,9 +1,11 @@
 package pages;
 
+import packedMessage.FormattedText;
+import packedMessage.PackedMessage;
+import packedMessage.PackedMessageBuilder;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -15,28 +17,28 @@ public class Page {
      * Таблица сопоставления блоков основной информации и их названий
      */
     private final Map<String, String> FEATURES_NAMES_MATCH = Map.of(
-            "score", "Увеличение характеристик.",
-            "age", "Возраст.",
-            "alignment", "Мировоззрение.",
-            "size", "Размер.",
-            "speed", "Скорость.",
-            "languages", "Языки."
+            "Увеличение характеристик.", "score",
+            "Возраст.", "age",
+            "Мировоззрение.", "alignment",
+            "Размер.", "size",
+            "Скорость.", "speed",
+            "Языки.", "languages"
     );
 
     /**
      * Ссылка на страницу
      */
-    private final String link;
+    private final FormattedText link;
 
     /**
      * Основная информация со страницы
      */
-    private final Map<String, String> mainFeatures;
+    private final Map<FormattedText, FormattedText> mainFeatures;
 
     /**
      * Конструктор класса страницы
      */
-    public Page(String link, Map<String, String> mainFeatures) {
+    public Page(FormattedText link, Map<FormattedText, FormattedText> mainFeatures) {
         this.link = link;
         this.mainFeatures = mainFeatures;
     }
@@ -46,7 +48,7 @@ public class Page {
      *
      * @return возвращает ссылку на страницу
      */
-    public String getLink() {
+    public FormattedText getLink() {
         return link;
     }
 
@@ -56,21 +58,22 @@ public class Page {
      * @param features список блоков
      * @return строка с информацией запрашиваемых блоков
      */
-    public String getFeatures(ArrayList<String> features) {
-        Set<String> chosenFeatures = new HashSet<>();
-        if (features.contains("all"))
-            chosenFeatures = mainFeatures.keySet();
-        else
-            for (String x : features)
-                chosenFeatures.add(FEATURES_NAMES_MATCH.get(x));
-
-        StringBuilder answer = new StringBuilder();
-        for (String title : chosenFeatures) {
-            answer.append(title)
-                    .append(" ")
-                    .append(mainFeatures.get(title))
-                    .append("\n");
+    public PackedMessage getFeatures(ArrayList<String> features) {
+        ArrayList<FormattedText> chosenFeatures = new ArrayList<>();
+        if (features.contains("all")) {
+            chosenFeatures = new ArrayList<>(mainFeatures.keySet());
+        } else {
+            for (FormattedText key : mainFeatures.keySet()) {
+                if (features.contains(FEATURES_NAMES_MATCH.get(key.text)))
+                    chosenFeatures.add(key);
+            }
         }
-        return String.valueOf(answer);
+
+        PackedMessageBuilder messagePackageBuilder = new PackedMessageBuilder();
+        for (FormattedText title : chosenFeatures) {
+            messagePackageBuilder.addInformation(title).addInformation(mainFeatures.get(title));
+        }
+
+        return messagePackageBuilder.build();
     }
 }
