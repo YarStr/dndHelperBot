@@ -28,6 +28,7 @@ public class RaceInfoCommand extends RaceCommand implements Command {
         race = new PageBuilder("race", arguments.get(0))
                 .setLink()
                 .setInfoBlocks()
+                .setPageImage()
                 .build();
         arguments.remove(0);
         this.arguments = processFeatureArguments(arguments);
@@ -35,6 +36,8 @@ public class RaceInfoCommand extends RaceCommand implements Command {
 
     @Override
     public PackedMessage getResult() {
-        return race.getFeatures(arguments);
+        PackedMessage packedMessage = race.getFeatures(arguments);
+        packedMessage.additionalData = race.getPageImage();
+        return packedMessage;
     }
 }

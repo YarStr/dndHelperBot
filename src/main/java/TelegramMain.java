@@ -8,7 +8,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
  *
  * @author Yaroslav Strakhov and Novikova Anastasia
  */
-public class TelegramMain {
+public class TelegramMain { 
     public static void main(String[] args) {
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);

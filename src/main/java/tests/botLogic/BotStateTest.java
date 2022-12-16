@@ -1,7 +1,7 @@
 package tests.botLogic;
 
 import botLogic.state.BotState;
-import command.CommandList;
+import command.Commands;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -66,10 +66,10 @@ class BotStateTest {
     void testGetAvailableCommandsFromMainState() {
         ArrayList<String> currentCommands = botState.getAvailableCommands();
         ArrayList<String> expectedCommands = new ArrayList<>(Arrays.asList(
-                CommandList.START,
-                CommandList.HELP,
-                CommandList.RACE,
-                CommandList.LIST
+                Commands.START,
+                Commands.HELP,
+                Commands.RACE,
+                Commands.LIST
         ));
         assertEquals(expectedCommands, currentCommands);
     }
@@ -79,9 +79,9 @@ class BotStateTest {
         botState = BotState.RaceInfo;
         ArrayList<String> currentCommands = botState.getAvailableCommands();
         ArrayList<String> expectedCommands = new ArrayList<>(Arrays.asList(
-                CommandList.HELP,
-                CommandList.INFO,
-                CommandList.EXIT
+                Commands.HELP,
+                Commands.INFO,
+                Commands.EXIT
         ));
         assertEquals(expectedCommands, currentCommands);
     }

@@ -4,5 +4,5 @@ package packedMessage;
  * Перечисление всех стилей оформления текста
  */
 public enum Format {
-    TITLE, NORMAL, ERROR
+    TITLE, NORMAL, LIST_ELEMENT, ERROR
 }

@@ -3,7 +3,7 @@ package command;
 /**
  * Класс хранения строковых представлений команд бота
  */
-public class CommandList {
+public class Commands {
     public static final String START = "start";
     public static final String HELP = "help";
     public static final String RACE = "race";

@@ -4,6 +4,7 @@ import packedMessage.FormattedText;
 import packedMessage.PackedMessage;
 import packedMessage.PackedMessageBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -36,11 +37,17 @@ public class Page {
     private final Map<FormattedText, FormattedText> mainFeatures;
 
     /**
+     * Изображение со страницы
+     */
+    private final File pageImage;
+
+    /**
      * Конструктор класса страницы
      */
-    public Page(FormattedText link, Map<FormattedText, FormattedText> mainFeatures) {
+    public Page(FormattedText link, Map<FormattedText, FormattedText> mainFeatures, File pageImage) {
         this.link = link;
         this.mainFeatures = mainFeatures;
+        this.pageImage = pageImage;
     }
 
     /**
@@ -75,5 +82,14 @@ public class Page {
         }
 
         return messagePackageBuilder.build();
+    }
+
+    /**
+     * Геттер изображения со страницы
+     *
+     * @return изображение со страницы
+     */
+    public File getPageImage() {
+        return pageImage;
     }
 }

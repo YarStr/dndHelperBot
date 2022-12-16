@@ -67,9 +67,12 @@ public class TelegramBot extends TelegramLongPollingBot {
                 Message inputMessage = update.getMessage();
                 Request request = requestCreator.getRequest(inputMessage.getText());
 
-                TelegramOutputMessage telegramOutputMessage = telegramOutputBuilder.getSendMessage(commandHandler.handleRequest(request), inputMessage.getChatId());
+                TelegramOutputMessage telegramOutputMessage = telegramOutputBuilder.getSendMessage(
+                        commandHandler.handleRequest(request), inputMessage.getChatId()
+                );
+                if (telegramOutputMessage.sendPhoto.getChatId() != null)
+                    execute(telegramOutputMessage.sendPhoto);
                 execute(telegramOutputMessage.sendMessage);
-//                execute(telegramOutputMessage.sendPhoto);
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();

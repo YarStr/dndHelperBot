@@ -1,8 +1,5 @@
 package packedMessage;
 
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.Message;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -23,10 +20,13 @@ public class PackedMessage {
     /**
      * Дополнительные данные для вывода пользователю
      */
-    public InputFile additionalData;
+    public File additionalData;
 
 
-    public PackedMessage(ArrayList<FormattedText> information, ArrayList<String> availableCommands, InputFile additionalData) {
+    public PackedMessage(
+            ArrayList<FormattedText> information,
+            ArrayList<String> availableCommands,
+            File additionalData) {
         this.information = information;
         this.availableCommands = availableCommands;
         this.additionalData = additionalData;

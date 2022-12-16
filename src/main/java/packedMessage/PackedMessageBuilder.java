@@ -1,10 +1,7 @@
 package packedMessage;
 
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Билдер класса MessagePackage
@@ -23,7 +20,7 @@ public class PackedMessageBuilder {
     /**
      * Дополнительные данные для вывода пользователю
      */
-    private InputFile additionalData;
+    private File additionalData;
 
     /**
      * Конструктор
@@ -36,6 +33,7 @@ public class PackedMessageBuilder {
 
     /**
      * Метод заполнения поля information
+     *
      * @param formattedText блок информации в одном экземпляре
      * @return себя
      */
@@ -48,6 +46,7 @@ public class PackedMessageBuilder {
 
     /**
      * Метод заполнения поля information
+     *
      * @param formattedTextList список блоков информации
      * @return себя
      */
@@ -59,19 +58,8 @@ public class PackedMessageBuilder {
     }
 
     /**
-     * Метод заполнения поля information
-     * @param formattedTextList список блоков информации
-     * @return себя
-     */
-    public PackedMessageBuilder addInformation(HashSet<FormattedText> formattedTextList) {
-        if (information == null)
-            information = new ArrayList<>();
-        information.addAll(formattedTextList);
-        return this;
-    }
-
-    /**
      * Метод заполнения поля availableCommands
+     *
      * @param availableCommands список доступных команд
      * @return себя
      */
@@ -82,16 +70,18 @@ public class PackedMessageBuilder {
 
     /**
      * Метод заполнения поля additionalData
+     *
      * @param additionalData файл дополнительных данных
      * @return себя
      */
-    public PackedMessageBuilder addAdditionalData(InputFile additionalData) {
+    public PackedMessageBuilder addAdditionalData(File additionalData) {
         this.additionalData = additionalData;
         return this;
     }
 
     /**
      * Метод построения класса MessagePackage
+     *
      * @return экземпляр MessagePackage
      */
     public PackedMessage build() {

@@ -8,6 +8,8 @@ import command.exceptions.FailedCommandExecutionException;
 import command.exceptions.InvalidCommandArgumentsException;
 import parser.exceptions.NonExistentPageException;
 import parser.Parser;
+
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -34,6 +36,8 @@ public class PageBuilder {
      * Блоки с основной информацией страницы
      */
     private Map<FormattedText, FormattedText> mainFeatures;
+
+    private File pageImage;
 
     /**
      * Конструктор класса
@@ -73,9 +77,20 @@ public class PageBuilder {
     public PageBuilder setInfoBlocks() throws FailedCommandExecutionException {
         try {
             mainFeatures = Parser.getRaceFeatures(link);
+
         } catch (FailedConnectionException e) {
             throw new FailedCommandExecutionException();
         }
+        return this;
+    }
+
+    /**
+     * Метод установки изображения страницы
+     *
+     * @return экземпляр класса PageBuilder
+     */
+    public PageBuilder setPageImage() {
+        this.pageImage = Parser.getRaceImage(link);
         return this;
     }
 
@@ -85,6 +100,10 @@ public class PageBuilder {
      * @return экземпляр класса с установленными билдером полями
      */
     public Page build() {
-        return new Page(new FormattedText("https://dnd.su" + link, Format.NORMAL), mainFeatures);
+        return new Page(
+                new FormattedText("https://dnd.su" + link, Format.NORMAL),
+                mainFeatures,
+                pageImage
+        );
     }
 }

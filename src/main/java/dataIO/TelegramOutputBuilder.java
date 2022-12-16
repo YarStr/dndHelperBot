@@ -2,7 +2,7 @@ package dataIO;
 
 import botLogic.KeyboardCreator;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import packedMessage.FormattedText;
 import packedMessage.PackedMessage;
 
@@ -25,9 +25,10 @@ public class TelegramOutputBuilder {
         StringBuilder stringBuilder = new StringBuilder();
         for (FormattedText formattedText : packedMessage.information) {
             switch (formattedText.format) {
-                case ERROR -> stringBuilder.append("<u>").append(formattedText.text).append("</u>");
+                case ERROR -> stringBuilder.append("<code>").append(formattedText.text).append("</code>");
                 case TITLE -> stringBuilder.append("<b>").append(formattedText.text).append("</b>");
-                case NORMAL -> stringBuilder.append("<i>").append(formattedText.text).append("</i>");
+                case NORMAL -> stringBuilder.append(formattedText.text).append('\n');
+                case LIST_ELEMENT -> stringBuilder.append("• ").append(formattedText.text);
             }
             stringBuilder.append('\n');
         }
@@ -35,12 +36,14 @@ public class TelegramOutputBuilder {
         telegramOutputMessage.sendMessage.setChatId(chatID);
         telegramOutputMessage.sendMessage.setParseMode(ParseMode.HTML);
         telegramOutputMessage.sendMessage.setText(stringBuilder.toString());
-        telegramOutputMessage.sendMessage.setReplyMarkup(keyboardCreator.createKeyboard(packedMessage.availableCommands));
+        telegramOutputMessage.sendMessage.setReplyMarkup(
+                keyboardCreator.createKeyboard(packedMessage.availableCommands)
+        );
 
 
         if (packedMessage.additionalData != null) {
             telegramOutputMessage.sendPhoto.setChatId(chatID);
-            telegramOutputMessage.sendPhoto.setPhoto(packedMessage.additionalData);
+            telegramOutputMessage.sendPhoto.setPhoto(new InputFile(packedMessage.additionalData, "raceImage"));
         }
 
         return telegramOutputMessage;

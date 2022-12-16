@@ -1,6 +1,5 @@
 package parser;
 
-import org.telegram.telegrambots.meta.api.objects.File;
 import packedMessage.FormattedText;
 import packedMessage.Format;
 import packedMessage.PackedMessage;
@@ -13,11 +12,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import parser.exceptions.NonExistentPageException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,9 +61,9 @@ public class Parser {
         Elements raceList = section.select("span[class=\"article_title\"]");
 
         ArrayList<FormattedText> formattedRaceList = new ArrayList<>();
-        formattedRaceList.add(new FormattedText("Список всех доступных рас", Format.TITLE));
+        formattedRaceList.add(new FormattedText("Список всех доступных рас:", Format.TITLE));
         for (Element raceListElement : raceList)
-            formattedRaceList.add(new FormattedText(raceListElement.text(), Format.NORMAL));
+            formattedRaceList.add(new FormattedText(raceListElement.text(), Format.LIST_ELEMENT));
 
         return new PackedMessageBuilder().addInformation(formattedRaceList).build();
     }
@@ -129,4 +128,30 @@ public class Parser {
         return featureElementsMap;
     }
 
+    /**
+     * Метод получения изображения расы со страницы расы
+     *
+     * @param link ссылка на страницу расы
+     * @return изображение расы
+     */
+    public static File getRaceImage(String link) {
+        Document section;
+        try {
+            section = Jsoup.connect("https://dnd.su" + link).get();
+        } catch (IOException e) {
+            return null;
+        }
+
+        Element raceImage = section.selectFirst(".gallery-image");
+        try {
+            assert raceImage != null;
+            URL url = new URL("https://dnd.su" + raceImage.attr("src"));
+            BufferedImage img = ImageIO.read(url);
+            File file = new File("image.jpg");
+            ImageIO.write(img, "jpg", file);
+            return file;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

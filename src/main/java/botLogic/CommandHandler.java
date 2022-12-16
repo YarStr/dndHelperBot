@@ -34,17 +34,23 @@ public class CommandHandler {
      * @return возвращает результат вызванной команды
      */
     public PackedMessage handleRequest(Request request) {
-        PackedMessageBuilder messagePackageBuilder = new PackedMessageBuilder();
+        PackedMessageBuilder packedMessageBuilder = new PackedMessageBuilder();
         FormattedText information = new FormattedText();
 
         if (availableCommands.contains(request.command())) {
             try {
-                PackedMessage messagePackage = executeCommand(request);
-                messagePackageBuilder.addInformation(messagePackage.information);
+                PackedMessage packedMessage = executeCommand(request);
+                packedMessageBuilder.addInformation(packedMessage.information);
+
+                if (packedMessage.additionalData != null)
+                    packedMessageBuilder.addAdditionalData(packedMessage.additionalData);
+
                 state = state.nextState(request);
+
             } catch (InvalidCommandArgumentsException e) {
                 information.text = e.getMessage();
                 information.format = Format.ERROR;
+
             } catch (FailedCommandExecutionException e) {
                 information.text = "Извините, я сломался и не смог выполнить команду. Попробуйте ещё раз.";
                 information.format = Format.ERROR;
@@ -56,11 +62,10 @@ public class CommandHandler {
 
         availableCommands = state.getAvailableCommands();
 
-
         if (information.text != null)
-            messagePackageBuilder.addInformation(information);
+            packedMessageBuilder.addInformation(information);
 
-        return messagePackageBuilder
+        return packedMessageBuilder
                 .addAvailableCommands(availableCommands)
                 .build();
     }
@@ -75,12 +80,12 @@ public class CommandHandler {
      */
     private PackedMessage executeCommand(Request request) throws InvalidCommandArgumentsException, FailedCommandExecutionException {
         Command currentCommand = switch (request.command()) {
-            case CommandList.START -> new StartCommand();
-            case CommandList.HELP -> new HelpCommand();
-            case CommandList.RACE -> new RaceInfoCommand(request.arguments());
-            case CommandList.LIST -> new ListCommand(request.arguments());
-            case CommandList.INFO -> new MoreRaceInfoCommand(request.arguments());
-            case CommandList.EXIT -> new ExitCommand();
+            case Commands.START -> new StartCommand();
+            case Commands.HELP -> new HelpCommand();
+            case Commands.RACE -> new RaceInfoCommand(request.arguments());
+            case Commands.LIST -> new ListCommand(request.arguments());
+            case Commands.INFO -> new MoreRaceInfoCommand(request.arguments());
+            case Commands.EXIT -> new ExitCommand();
             default -> throw new FailedCommandExecutionException();
         };
         return currentCommand.getResult();

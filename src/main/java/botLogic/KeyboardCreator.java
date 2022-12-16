@@ -4,7 +4,6 @@ package botLogic;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import request.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +33,11 @@ public class KeyboardCreator {
         for (String command : availableCommands) {
             if (!command.equals("race") && !command.equals("info") && !command.equals("start")) {
                 if (command.equals("list")) {
-                    keyboardFirstRow.add(new KeyboardButton(command + " race"));
-                    keyboardFirstRow.add(new KeyboardButton(command + " class"));
+                    keyboardFirstRow.add(new KeyboardButton("/" + command + " race"));
+                    keyboardFirstRow.add(new KeyboardButton("/" + command + " class"));
                     continue;
                 }
-                keyboardFirstRow.add(new KeyboardButton(command));
+                keyboardFirstRow.add(new KeyboardButton("/" + command));
             }
         }
 
