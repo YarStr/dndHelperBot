@@ -7,18 +7,27 @@ public class TelegramOutputMessage {
     /**
      * Поле с текстом сообщения
      */
-    public SendMessage sendMessage;
+    public SendMessage sendMessage = new SendMessage();
 
     /**
      * Поле с фотографией к сообщению
      */
-    public SendPhoto sendPhoto;
+    public SendPhoto sendPhoto = null;
 
-    /**
-     * Конструктор
-     */
-    public TelegramOutputMessage() {
-        this.sendMessage = new SendMessage();
-        this.sendPhoto = new SendPhoto();
+    public void setSendMessage(SendMessage sendMessage) {
+        this.sendMessage = sendMessage;
     }
+
+    public void setSendPhoto(SendPhoto sendPhoto) {
+        this.sendPhoto = sendPhoto;
+    }
+
+//    /**
+//     * Конструктор
+//     */
+//    public TelegramOutputMessage() {
+//        this.sendMessage = new SendMessage();
+//        this.sendPhoto = new SendPhoto();
+//    }
+
 }

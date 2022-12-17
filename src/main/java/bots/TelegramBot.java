@@ -1,5 +1,6 @@
 package bots;
 
+import botLogic.Analysis.Analyzer;
 import botLogic.CommandHandler;
 
 import dataIO.TelegramOutputBuilder;
@@ -10,6 +11,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.IOException;
 
 /**
  * Бот, работающий в телеграм
@@ -46,6 +49,8 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     private final TelegramOutputBuilder telegramOutputBuilder;
 
+    private final Analyzer analyzer;
+
     /**
      * Конструктор - создание нового объекта
      */
@@ -53,6 +58,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.requestCreator = new RequestCreator();
         this.commandHandler = new CommandHandler();
         this.telegramOutputBuilder = new TelegramOutputBuilder();
+        this.analyzer = new Analyzer();
     }
 
     /**
@@ -65,16 +71,21 @@ public class TelegramBot extends TelegramLongPollingBot {
         try {
             if (update.hasMessage() && update.getMessage().hasText()) {
                 Message inputMessage = update.getMessage();
-                Request request = requestCreator.getRequest(inputMessage.getText());
+                String analyzedText = analyzer.textAnalysis(inputMessage.getText());
+                Request request = requestCreator.getRequest(analyzedText);
 
                 TelegramOutputMessage telegramOutputMessage = telegramOutputBuilder.getSendMessage(
                         commandHandler.handleRequest(request), inputMessage.getChatId()
                 );
-                if (telegramOutputMessage.sendPhoto.getChatId() != null)
+
+                if (telegramOutputMessage.sendPhoto != null){
+                    telegramOutputMessage.sendPhoto.getPhoto();
+                    telegramOutputMessage.sendPhoto.getChatId();
                     execute(telegramOutputMessage.sendPhoto);
+                }
                 execute(telegramOutputMessage.sendMessage);
             }
-        } catch (TelegramApiException e) {
+        } catch (TelegramApiException | IOException e) {
             e.printStackTrace();
         }
     }

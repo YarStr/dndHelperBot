@@ -34,7 +34,6 @@ public class KeyboardCreator {
             if (!command.equals("race") && !command.equals("info") && !command.equals("start")) {
                 if (command.equals("list")) {
                     keyboardFirstRow.add(new KeyboardButton("/" + command + " race"));
-                    keyboardFirstRow.add(new KeyboardButton("/" + command + " class"));
                     continue;
                 }
                 keyboardFirstRow.add(new KeyboardButton("/" + command));

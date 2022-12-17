@@ -1,5 +1,6 @@
 package botLogic.state;
 
+import command.Command;
 import command.Commands;
 import request.Request;
 
@@ -27,7 +28,9 @@ public enum BotState {
                     Commands.START,
                     Commands.HELP,
                     Commands.RACE,
-                    Commands.LIST
+                    Commands.LIST,
+                    Commands.HELLO,
+                    Commands.THANKS
             ));
         }
     },
@@ -41,7 +44,8 @@ public enum BotState {
             return new ArrayList<>(Arrays.asList(
                     Commands.HELP,
                     Commands.INFO,
-                    Commands.EXIT
+                    Commands.EXIT,
+                    Commands.THANKS
             ));
         }
 

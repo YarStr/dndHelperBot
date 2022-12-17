@@ -2,6 +2,8 @@ package dataIO;
 
 import botLogic.KeyboardCreator;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import packedMessage.FormattedText;
 import packedMessage.PackedMessage;
@@ -42,10 +44,11 @@ public class TelegramOutputBuilder {
 
 
         if (packedMessage.additionalData != null) {
-            telegramOutputMessage.sendPhoto.setChatId(chatID);
-            telegramOutputMessage.sendPhoto.setPhoto(new InputFile(packedMessage.additionalData, "raceImage"));
+            SendPhoto sendPhoto = new SendPhoto();
+            sendPhoto.setChatId(chatID);
+            sendPhoto.setPhoto(new InputFile(packedMessage.additionalData, "raceImage"));
+            telegramOutputMessage.setSendPhoto(sendPhoto);
         }
-
         return telegramOutputMessage;
     }
 }

@@ -10,4 +10,9 @@ public class Commands {
     public static final String LIST = "list";
     public static final String INFO = "info";
     public static final String EXIT = "exit";
+
+    public static final String HELLO = "hello";
+
+    public static final String THANKS = "thanks";
+
 }

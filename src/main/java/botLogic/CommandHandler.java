@@ -86,6 +86,8 @@ public class CommandHandler {
             case Commands.LIST -> new ListCommand(request.arguments());
             case Commands.INFO -> new MoreRaceInfoCommand(request.arguments());
             case Commands.EXIT -> new ExitCommand();
+            case Commands.HELLO -> new HelloCommand();
+            case Commands.THANKS -> new ThanksCommand();
             default -> throw new FailedCommandExecutionException();
         };
         return currentCommand.getResult();
