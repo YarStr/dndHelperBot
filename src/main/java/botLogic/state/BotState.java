@@ -30,7 +30,8 @@ public enum BotState {
                     Commands.RACE,
                     Commands.LIST,
                     Commands.HELLO,
-                    Commands.THANKS
+                    Commands.THANKS,
+                    Commands.GOOD
             ));
         }
     },

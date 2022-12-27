@@ -8,7 +8,7 @@ public class ListWords {
 
     public HashMap<String, ArrayList<String>> listWords = new HashMap<>()
     {{
-        put("help", new ArrayList<>(Arrays.asList("умеешь?", "знаешь?")));
+        put("help", new ArrayList<>(Arrays.asList("умеешь", "знаешь", "расскажи")));
         put("race", new ArrayList<>(Arrays.asList("раса", "расу", "расе", "расы", "расах")));
         put("size", new ArrayList<>(Arrays.asList("рост", "размер")));
         put("age", new ArrayList<>(Arrays.asList("возраст")));
@@ -20,6 +20,7 @@ public class ListWords {
         put("exit", new ArrayList<>(Arrays.asList("сменим", "смени")));
         put("hello", new ArrayList<>(Arrays.asList("привет")));
         put("thanks", new ArrayList<>(Arrays.asList("спасибо")));
+        put("good", new ArrayList<>(Arrays.asList("прекрасен")));
     }};
 
     public HashMap<String, ArrayList<String>> getListWords() {

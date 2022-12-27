@@ -88,6 +88,7 @@ public class CommandHandler {
             case Commands.EXIT -> new ExitCommand();
             case Commands.HELLO -> new HelloCommand();
             case Commands.THANKS -> new ThanksCommand();
+            case Commands.GOOD -> new GoodCommand();
             default -> throw new FailedCommandExecutionException();
         };
         return currentCommand.getResult();

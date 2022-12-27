@@ -15,4 +15,6 @@ public class Commands {
 
     public static final String THANKS = "thanks";
 
+    public static final String GOOD = "good";
+
 }
